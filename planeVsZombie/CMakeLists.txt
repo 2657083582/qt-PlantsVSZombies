@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.23)
 project(planeVsZombie VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
-# set cxx 17 required
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -21,6 +20,12 @@ qt_add_qml_module(appplaneVsZombie
     QML_FILES main.qml 
     MainMenu.qml
     RecordWindow.qml
+    Card.qml
+    Shop.qml
+    Shovel.qml
+    Mower.qml
+    GameWindow.qml
+    Map.qml
 )
 
 # auto add .h and .cpp for sources
