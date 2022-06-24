@@ -26,6 +26,9 @@ qt_add_qml_module(appplaneVsZombie
     Mower.qml
     GameWindow.qml
     Map.qml
+    sunflower.qml
+    pea.qml
+    peashooter.qml
 )
 
 # auto add .h and .cpp for sources
