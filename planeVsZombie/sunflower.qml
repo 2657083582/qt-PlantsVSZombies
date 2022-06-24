@@ -2,15 +2,13 @@ import QtQuick
 
 Item {
     id:sunFlower
-    property int hp:20
+    property int hp:300
     property bool sunFlag: false
     Rectangle{
         AnimatedImage{
             id:animatedImage
-            source: "/root/qt-PlantsVSZombies/planeVsZombie/images/SunFlower.gif"
-            visible: false
-            anchors.fill: parent
-            focus: false
+            source: "qrc:/images/SunFlower.gif"
+            visible:true
         }
     }
     Timer{
