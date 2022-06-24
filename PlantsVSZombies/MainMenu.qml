@@ -28,7 +28,7 @@ Item {
 
         Image {
             anchors.fill: parent
-            source: "file:///root/Button.png"
+            source: "qrc:/images/interface/Button.png"
             Text {
                 color: "#fa7e23"
                 anchors.centerIn: parent
@@ -58,7 +58,7 @@ Item {
 
         Image {
             anchors.fill: parent
-            source: "file:///root/Button.png"
+            source: "qrc:/images/interface/Button.png"
             Text {
                 color: "#fa7e23"
                 anchors.centerIn: parent
@@ -86,7 +86,7 @@ Item {
 
         Image {
             anchors.fill: parent
-            source: "file:///root/Button.png"
+            source: "qrc:/images/interface/Button.png"
             Text {
                 color: "#fa7e23"
                 anchors.centerIn: parent
@@ -114,7 +114,7 @@ Item {
 
         Image {
             anchors.fill: parent
-            source: "file:///root/Button.png"
+            source: "qrc:/images/interface/Button.png"
             Text {
                 color: "#fa7e23"
                 anchors.centerIn: parent

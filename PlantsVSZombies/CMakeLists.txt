@@ -2,8 +2,13 @@ cmake_minimum_required(VERSION 3.23)
 
 project(planeVsZombie VERSION 0.1 LANGUAGES CXX)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+# set cxx 17 required
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -22,22 +27,28 @@ qt_add_qml_module(appplaneVsZombie
     QML_FILES main.qml 
     MainMenu.qml
     RecordWindow.qml
+    SettingWindow.qml
+    BasicZombie.qml
+    BucketheadZombie.qml
+    ConeheadZombie.qml
+    FlagZombie.qml
+    PoleVaultingZombie.qml
+    Cherrybomb.qml
+    Pea.qml
+    Peashooter.qml
+    Potatomine.qml
+    Sunflower.qml
+    Wallnut.qml
     Card.qml
-    Shop.qml
-    Shovel.qml
-    Mower.qml
     GameWindow.qml
     Map.qml
-    sunflower.qml
-    pea.qml
-    peashooter.qml
-    wallnut.qml
-    cherrybomb.qml
-    potatomine.qml
+    Mower.qml
+    Shop.qml
+    Shovel.qml
 )
 
 # auto add .h and .cpp for sources
-set(GLOB sources CMAKE_CONFIGURE_DEPENDS *.h *.cpp)
+set(GLOB sources CMAKE_CONFIGURE_DEPENDS *.h *.cpp )
 
 set_target_properties(appplaneVsZombie PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

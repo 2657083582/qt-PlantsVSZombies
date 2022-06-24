@@ -21,8 +21,9 @@ ApplicationWindow {
     // some error: qt.multimedia.player: Unable to set the pipeline to the paused state.
     MediaPlayer {
         id: music
-        source: ""
+        source: "qrc:/medias/Kitanai Sekai.mp3"
         audioOutput: AudioOutput{}
+        loops: music.Infinite
     }
 
     // theme backgroundImage
@@ -30,7 +31,7 @@ ApplicationWindow {
     Image {
         id: backgroundImage
         anchors.fill: parent
-        source: "file:///root/background.png"
+        source: "qrc:/images/interface/background.png"
         // clip backgroudImage
         // make some error maybe
         sourceSize.width: 1260
@@ -44,7 +45,8 @@ ApplicationWindow {
     MainMenu {
         id: mainMenu
 
-        Component.onCompleted: music.play()
+        Component.onCompleted: {music.play()}
+
 
         onStart: {
             console.log("start")
@@ -57,6 +59,9 @@ ApplicationWindow {
         }
         onSetting: {
             console.log("setting")
+            mainMenu.visible = false
+            settingWindow.visible = true
+            backgroundImage.opacity = 0.5
         }
         onQuit: {
             console.log("quit")
@@ -70,6 +75,16 @@ ApplicationWindow {
         id: recordWindow
         onBack: {
             recordWindow.visible = false
+            mainMenu.visible = true
+            backgroundImage.opacity = 1.0
+        }
+    }
+
+    // set the audio...
+    SettingWindow {
+        id: settingWindow
+        onBack: {
+            settingWindow.visible = false
             mainMenu.visible = true
             backgroundImage.opacity = 1.0
         }
