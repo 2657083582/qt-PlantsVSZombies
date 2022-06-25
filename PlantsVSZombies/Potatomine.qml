@@ -7,13 +7,14 @@ Item {
     property int damage:1800
     property int count:0
     property var state:[]
-    Rectangle{
+    //Rectangle{
         AnimatedImage{
             id:animatedImage
-            source: "qrc:/images/PotatoMineNotReady.gif"
+            source: "qrc:/images/plants/PotatoMineNotReady.gif"
             visible:true       
+            anchors.fill: parent
         }
-    }
+    //}
     Timer{
         id:timer
         interval:6000

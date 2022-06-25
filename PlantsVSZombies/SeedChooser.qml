@@ -9,7 +9,7 @@ Rectangle{
                 "qrc:/images/plants/SnowPea.png","qrc:/images/plants/CherryBomb.png",
                 "qrc:/images/plants/WallNut.png"];
         var costs=["50","100","25","200","175","150","50"];
-        var names=["sunFlower","peaShooter","potatoMine","Reapter","snowPea","wallNut"];
+        var names=["sunFlower","peaShooter","potatoMine","Reapter","snowPea","cherryBomb","wallNut"];
         listModel.clear();
         for(var i=0;i<7;++i){
             listModel.append({"name":names[i],"path":filepaths[i],"cost":costs[i]});

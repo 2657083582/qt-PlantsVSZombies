@@ -53,21 +53,18 @@ Item {
     }
 
     Grid{
-        function getSource(){
-            //var name=arguments[0];
-            //console.log(name);
-            //console.log(shop.listModel.index(name))
-            var index=Number(arguments[0].toString().slice(',')[0])
+//        function getSource(){
+//            var index=Number(arguments[0]/*.toString().slice(',')[0]*/)
+//            console.log("para:"+index)
+//            //console.log("count"+shop.listModel.count)
+//            var filepath=shop.listModel.get(index).path
+//            var length=filepath.length
+//            var gifPath=filepath.substring(0,length-4)+".gif"
+//            console.log(filepath)
+//            return gifPath
+//        }
 
-            //console.log("count"+shop.listModel.count)
 
-            var filepath=shop.listModel.get(index).path.toString()
-            var length=filepath.length
-            var gifPath=filepath.substring(0,length-4)+".gif"
-            console.log(filepath)
-            return gifPath
-
-        }
 
         //z:-1
         id:grid
@@ -92,40 +89,72 @@ Item {
                 color:mouse.hovered?Qt.rgba(154,205,50,0.4):"transparent"
                 focus: true
                 Rectangle{
-                    width: parent.width*0.8
-                    height: parent.height*0.8
+                    //种植植物
+                    function createPlant(){
+                        var index=Number(arguments[0]);
+                        //获取植物名称
+                        var plantName=shop.listModel.get(index).name;
+                        //根据名称种植对应植物
+                        if(plantName==="sunFlower")
+                            Qt.createQmlObject('Sunflower{anchors.fill:parent}',plantcontainer);
+                        if(plantName==="peaShooter")
+                            Qt.createQmlObject('Peashooter{anchors.fill:parent}',plantcontainer);
+                        if(plantName==="potatoMine")
+                            Qt.createQmlObject('Potatomine{anchors.fill:parent}', plantcontainer);
+
+                        //if(plantName==="Reapter") Qt.createQmlObject("Reapter.qml");
+                        //if(plantName==="snowPea") Qt.createQmlObject("Snowpea.qml");
+
+                        if(plantName==="cherryBomb")
+                            Qt.createQmlObject('Cherrybomb{anchors.fill:parent}',plantcontainer);
+                        if(plantName==="wallNut")
+                            Qt.createQmlObject('Wallnut{anchors.fill:parent}',plantcontainer);
+
+                    }
+
+//                    function update(){
+
+//                    }
+
+                    id:plantcontainer
+                    property bool hasPlant: false
+
+                    width: parent.width*0.68
+                    height: parent.height*0.68
                     anchors.centerIn: parent
                     color:"transparent"
 
-                    AnimatedImage{
 
-                        id:animated
-                        source: ""
-                        visible: false
-                        anchors.fill:parent
-                        playing: true
+//                    AnimatedImage{
+
+//                        id:animated
+//                        source: ""
+//                        visible: false
+//                        anchors.fill:parent
+//                        playing: true
+//                    }
 
 
+                }
+                HoverHandler{
+                    id: mouse
+                    acceptedDevices: PointerDevice.Mouse
+                    cursorShape: Qt.PointingHandCurso
+                }
+                TapHandler{
+                    onTapped: {
+                        if(shop.order!==-1){//判断植物是否被选中
+//                            animated.source=grid.getSource(shop.order)
+//                            animated.visible=true
+                              //判断当前区域是否有植物，若已经有植物则不可种植
+                              if(!plantcontainer.hasPlant){
+                                  plantcontainer.createPlant(shop.order)
+                                  plantcontainer.hasPlant=true
+                              }
 
-                    }
+                        }
 
-                    HoverHandler{
-                        id: mouse
-                        acceptedDevices: PointerDevice.Mouse
-                        cursorShape: Qt.PointingHandCurso
-                    }
-                    TapHandler{
-                        onTapped: {
-                            if(shop.order!==-1){
-
-                                animated.source=grid.getSource(shop.order)
-
-                                animated.visible=true
-
-                            }
-
-                         }
-                    }
+                     }
                 }
 
            }
