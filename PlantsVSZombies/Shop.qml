@@ -2,23 +2,12 @@ import QtQuick
 
 Item {
     property alias shop: shop
+    //property alias num: num
+    property alias listModel: listModel
+    property alias listView:listView
+    property int num: 0
     property int order: -1
 
-    function addCard(){
-        var filepaths=[
-                "./images/SunFlower.png","./images/Peashooter.png",
-                "./images/PotatoMine.png","./images/Repeater.png",
-                "./images/SnowPea.png","./images/CherryBomb.png",
-                "./images/WallNut.png"];
-        var costs=["50","100","25","200","175","150","50"];
-
-        listModel.clear();
-        for(var i=0;i<10;++i){
-            if(i<7) listModel.append({"path":filepaths[i],"cost":costs[i],"index":i});
-            else    listModel.append({"path":filepaths[i%7],"cost":costs[i%7],"index":i})
-            //console.log(filepaths[i])
-        }
-    }
 
     id:shop
     width: 446*2.4
@@ -26,8 +15,7 @@ Item {
     Image{
         anchors.fill: parent
         fillMode: Image.Stretch
-        source: "file:///root/study/qt/PVZ-master/images/Shop.png"
-        Component.onCompleted: addCard()
+        source: "qrc:/images/interface/Shop.png"
 
         Text{
             id:sun
@@ -56,7 +44,23 @@ Item {
             id:listView
             anchors.fill: parent
             orientation: ListView.Horizontal
-            delegate: Card{id:card}
+            delegate: Card{
+                id:card
+                required property int test
+                TapHandler{
+                    onTapped: {
+                        listModel.IndexIsValid
+
+                        console.log("test:",card.test)
+                        shop.order=card.test
+                    }
+                }
+                Component.onCompleted: {
+//                    for(var i=0;i<listModel.count;++i)
+//                        console.log("index"+listModel.get(i).index)
+//                    console.log("index of card"+card.index)
+                }
+            }
 
             model:listModel
         }

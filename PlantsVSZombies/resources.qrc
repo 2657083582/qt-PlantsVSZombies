@@ -46,5 +46,19 @@
         <file>images/plants/WallNut.gif</file>
         <file>images/plants/WallNutCracked1.gif</file>
         <file>images/plants/WallNutCracked2.gif</file>
+        <file>images/interface/ShovelBank.png</file>
+        <file>images/interface/Shovel.png</file>
+        <file>images/interface/Shop.png</file>
+        <file>images/interface/SeedChooser_Background.png</file>
+        <file>images/interface/Card.png</file>
+        <file>images/interface/Background.jpg</file>
+        <file>images/plants/WallNut.png</file>
+        <file>images/plants/SunFlower.png</file>
+        <file>images/plants/SnowPea.png</file>
+        <file>images/plants/Repeater.png</file>
+        <file>images/plants/PotatoMine.png</file>
+        <file>images/plants/PeaShooter.png</file>
+        <file>images/plants/CherryBomb.png</file>
+        <file>images/plants/Boom.gif</file>
     </qresource>
 </RCC>

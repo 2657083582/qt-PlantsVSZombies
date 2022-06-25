@@ -3,10 +3,12 @@ import QtQuick
 Rectangle {
     id:card
 
+    required property string name
     required property url path
     required property string cost
-    required property int index
-    default property bool flag: false
+
+    //required property int index
+    //default property bool flag: false
     color:"transparent"
     width:90
     height: 120
@@ -14,7 +16,7 @@ Rectangle {
     Image {
         id: background
         anchors.fill: parent
-        source: "./images/Card.png"
+        source: "qrc:/images/interface/Card.png"
 
         Rectangle{
             width: parent.width*0.6
@@ -47,7 +49,6 @@ Rectangle {
             PropertyChanges {
                 target: card
                 color:"transparent"
-                flag:false
             }
         },
         State {
@@ -55,7 +56,6 @@ Rectangle {
             PropertyChanges {
                 target: card
                 color:Qt.rgba(0,0,0,0.5)
-                flag:true
             }
         }
     ]
@@ -63,8 +63,7 @@ Rectangle {
     TapHandler{
         onTapped: {
             card.state=card.state==="to be selected"?"selected":"to be selected"
-            shop.order=card.index
-            console.log(img.source)
+
         }
     }
 }

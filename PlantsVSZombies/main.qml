@@ -49,6 +49,8 @@ ApplicationWindow {
 
 
         onStart: {
+            loader.active=true
+            music.stop()
             console.log("start")
         }
         onRecord: {
@@ -88,5 +90,11 @@ ApplicationWindow {
             mainMenu.visible = true
             backgroundImage.opacity = 1.0
         }
+    }
+
+    Loader{
+        id:loader
+        source: "GameWindow.qml"
+        active: false
     }
 }
