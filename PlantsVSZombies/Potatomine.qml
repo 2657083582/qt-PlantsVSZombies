@@ -6,41 +6,51 @@ Item {
     property int hp:300
     property int damage:1800
     property int count:0
-    property var state:[]
+    state:"PotatoMineNotReady"
     //Rectangle{
         AnimatedImage{
             id:animatedImage
             source: "qrc:/images/plants/PotatoMineNotReady.gif"
             visible:true       
             anchors.fill: parent
+            onStatusChanged: playing=(status!==animatedImage.Ready)
         }
     //}
     Timer{
+
         id:timer
         interval:6000
         repeat:false
         running:true
+        triggeredOnStart: false
     }
     states:[
         State{
-            name:"PotatoMine";when:timer.triggered()
+            name:"PotatoMineNotReady";
             PropertyChanges {
                 target: animatedImage
-                source:"qrc:/images/PotatoMine.gif"
+                source:"qrc:/images/plants/PotatoMineNotReady.gif"
+            }
+        },
+        State{
+            name:"PotatoMine";when:!timer.running
+            PropertyChanges {
+                target: animatedImage
+                source:"qrc:/images/plants/PotatoMine.gif"
             }
         },
         State{
             name:"PotatoBoom";//when:touched  碰撞检测
             PropertyChanges{
                 target: animatedImage
-                source:"qrc:/images/PotatoMineMashed.gif"
+                source:"qrc:/images/plants/PotatoMineMashed.gif"
             }
         },
         State{
             name:"PotatoText";when:hp===0
             PropertyChanges {
                 target: animatedImage
-                source:"qrc:/images/PotatoText.gif"
+                source:"qrc:/images/plants/PotatoText.gif"
             }
         }
 
@@ -74,5 +84,6 @@ Item {
 
 //        }
 //    }
+
 
 }

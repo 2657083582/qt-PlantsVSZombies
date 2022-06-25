@@ -2,7 +2,7 @@ import QtQuick
 
 Item {
     id:sunFlower
-
+    anchors.fill: parent
     property int hp:300
     property bool sunFlag: false
     //Rectangle{
