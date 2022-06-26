@@ -92,6 +92,7 @@ ApplicationWindow {
         }
     }
     Shovel{
+        id:shovel
         anchors.top:menu.bottom
         anchors.left: shop.right
         anchors.topMargin: 2

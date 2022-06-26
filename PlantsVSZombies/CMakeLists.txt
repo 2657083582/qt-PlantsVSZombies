@@ -18,6 +18,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 qt_add_executable(appplaneVsZombie
     main.cpp
+    plantarr.cpp    plantarr.h
     resources.qrc
 )
 

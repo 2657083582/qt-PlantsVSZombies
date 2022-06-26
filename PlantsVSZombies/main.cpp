@@ -1,10 +1,11 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-
+#include"plantarr.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    qmlRegisterType<PlantArr>("an.qt.PlantArr",1,0,"PlantArr");
 
     QQmlApplicationEngine engine;
     const QUrl url(u"qrc:/planeVsZombie/main.qml"_qs);

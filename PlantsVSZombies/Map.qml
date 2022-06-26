@@ -1,10 +1,10 @@
 import QtQuick
+import an.qt.PlantArr 1.0
 
 Item {
     id:map
     property alias grid:grid
     property int phase:0
-    property  name: value
 
     onPhaseChanged: img.state=this.phase===0?"preparatory phase":"combat phase"
     Image{
@@ -81,8 +81,8 @@ Item {
                 color:mouse.hovered?Qt.rgba(154,205,50,0.4):"transparent"
                 focus: true
                 Rectangle{
-                    //种植植物
 
+                    //种植植物
                     function createPlant(){
                         var newplant;
                         var index=Number(arguments[0]);
@@ -114,14 +114,8 @@ Item {
                                     ('Wallnut{anchors.fill:parent}',plantcontainer);
                         }
 
-
-
+                        plantArr.setItemVec(row,col,newplant);
                     }
-
-
-//                    function update(){
-
-//                    }
 
                     id:plantcontainer
                     property bool hasPlant: false
@@ -130,9 +124,6 @@ Item {
                     height: parent.height*0.68
                     anchors.centerIn: parent
                     color:"transparent"
-
-
-
                 }
                 HoverHandler{
                     id: mouse
@@ -147,12 +138,21 @@ Item {
                               if(!plantcontainer.hasPlant){
                                   plantcontainer.createPlant(shop.order)
                                   plantcontainer.hasPlant=true
-
+                                  shop.order=-1
+                                  //plantArr.setArr(row,col,1)
                               }
                               console.log("position:"+cell.row,cell.col)
-
-
                         }
+                        if(shovel.selected){//当铲子被选中时，如果当前区域有植物则铲除
+                            if(plantcontainer.hasPlant){
+                                plantArr.getItemVec(row,col).destroy();
+                                plantArr.setItemVec(row,col,null);
+                                plantcontainer.hasPlant=false;
+                                console.log("destroy item");
+                            }
+                            shovel.selected=false;
+                        }
+
 
                      }
                 }
@@ -170,10 +170,26 @@ Item {
                         myGridModel.append({"row":i,"col":j})
             }
 
-            Component.onCompleted: myGridModel.createMolde()
+            Component.onCompleted: {
+                myGridModel.createMolde()
+            }
+
         }
     }
 
+    //记录grid的每个各自中是否有植物，有arr[i][j]为1,否则为0
+    PlantArr{
+        id:plantArr
+        Component.onCompleted: {
+            plantArr.initItemVec()
+            plantArr.initTempArr()
+        }
+        onItemVecChanged: {plantArr.updateTempArr()
+            plantArr.showItemVec()
+            plantArr.showTempArr()
+
+        }
 
 
+    }
 }
