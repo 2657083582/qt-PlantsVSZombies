@@ -2,50 +2,80 @@ import QtQuick
 
 Item {
     id: root
-    // to be confirmed
-    y: (Math.floor(Math.random()*5))*144+135.2
-    x:1200
-    property alias image: image
 
-    property int hp: 200
-    property int atk: 100
-    property int speed: parent.width/47
+    x: parent.width
+    y: (Math.floor(Math.random()*5))*144+135.2
     width: 123
     height: 144
     state: "fine"
 
-    // change state by argument from "view"
+    signal die();
+    property alias image: image
+    property alias imageState: image.state
+
+    property int hp: 200
+    property int atk: 100
+    property int speed: 123 / 4.7
+    property bool atking: false
+
+    Component.onCompleted: console.log(x)
+
+    // be atked
+    function attacked(atk) {
+        hp -= atk;
+    }
+
+    // change state by argument
     function stateChange(argument) {
         image.state = argument
     }
 
+    // change state by hp
     onHpChanged: {
         if(! hp > 0) {
-            image.state = die
+            stateChange("head");
+            stateInterval.running = true;
+        }
+    }
+
+    // atking state
+    onAtkingChanged: {
+        if(atking === true) {
+            stateChange("attack");
+
+        }
+        else if(akting === false && hp > 0) {
+            stateChange("fine");
+        }
+    }
+
+    // sequently set different state
+    Timer {
+        id: stateInterval
+        interval: 500; running: false; repeat: true
+        onTriggered: {
+            if(imageState === "head") {
+                stateChange("lostHead");
+            }else if(imageState === "lostHead") {
+                stateChange("die");
+                stateInterval.repeat = false;
+                root.die();
+            }
         }
     }
 
     // advance
-
-
-
-    // zombie interface
-    AnimatedImage {
-        anchors.fill: parent
-        id: image
-        source:"qrc:/images/Zombies/NormalZombie/NormalZombie.gif"
-
-    }
     NumberAnimation on x {
         to: 0
-        duration: speed*1000
-        running: true
-
-        Component.onCompleted: {
-            console.log(duration)
-            console.log("moving")
-        }
+        duration: 1260 / speed * 1000
+        running: hp > 0 && atking === false
     }
+
+    // zombie interface
+        AnimatedImage {
+            id: image
+            anchors.fill: parent
+        }
 
         // some states
         states: [

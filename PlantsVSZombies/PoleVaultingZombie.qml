@@ -2,50 +2,72 @@ import QtQuick
 
 Item {
     id: root
-    // to be confirmed
-    x: parent.height / getRandomNum(min, max)
-    y: parent.width / getRandomNum(min, max)
 
-//    property alias hp: hp
-//    property alias atk: atk
-//    property alias speed: speed
-//    property alias pole: pole
+    x: parent.width
+    y: (Math.floor(Math.random()*5))*144+135.2
+    state: "fine"
+
+    signal die();
     property alias image: image
     property alias imageState: image.state
 
     property int hp: 200 + 230
     property int atk: 100
-    property int speed: parent.width / 25
+    property int speed: 123 / 2.5
+    property bool atking: false
     property bool pole: true
 
-    // get random number to set x or y
-    function getRandomNum(min, max) {
-        var range = max - min;
-        var rand = Max.random();
-        return (min + Math.round(rand * range));
+    // be atked
+    function attacked(atk) {
+        hp -= atk;
     }
 
-    // change state by argument from "view"
+    // change state by argument
     function stateChange(argument) {
         image.state = argument
     }
 
+    // change state by hp
     onHpChanged: {
         if(! hp > 0) {
-            image.state = die
+            stateChange("head");
+            stateInterval.running = true;
         }
     }
 
-    onPoleChanged: speed = parent.width / 45
+    // atking state
+    onAtkingChanged: {
+        if(atking === true) {
+            stateChange("attack");
+        }
+        else if(akting === false && hp > 0) {
+            stateChange("fine");
+        }
+    }
+
+    // polevaulting
+    onPoleChanged: {
+        stateChange("jump");
+        root.speed = 123 / 4.5
+    }
 
     // sequently set the jump state
     Timer {
-        interval: 500; running: true; repeat: true
+        id: stateInterval
+        interval: 500; running: false; repeat: true
         onTriggered: {
             if(imageState === "jump") {
-                imageState = "jump2"
+                stateChange("jump");
             }else if(imageState === "jump2") {
-                imageState = "walk"
+                stateChange("jump2");
+            }else if(imageState === "jump2") {
+                stateChange("walk");
+            }else if(imageState === "head") {
+                stateChange("lostHead");
+            }else if(imageState === "lostHead") {
+                stateChange("die");
+                stateInterval.repeat = false;
+                root.die();
             }
         }
     }
@@ -54,17 +76,13 @@ Item {
     NumberAnimation on x {
         target: root
         to: 0
-        duration: speed
-        running: hp > 0
+        duration: 1260 / speed * 1000
+        running: hp > 0 && atking === false
     }
 
     // zombie interface
-    Rectangle {
-        id: basicZombie
-
         AnimatedImage {
             id: image
-            state: fine
         }
 
         // some states
@@ -140,5 +158,4 @@ Item {
                 }
             }
         ]
-    }
 }

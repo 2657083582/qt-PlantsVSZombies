@@ -2,34 +2,60 @@ import QtQuick
 
 Item {
     id: root
-    // to be confirmed
-    x: parent.height / getRandomNum(min, max)
-    y: parent.width / getRandomNum(min, max)
 
-//    property alias hp: hp
-//    property alias atk: atk
-//    property alias speed: speed
+    x: parent.width
+    y: (Math.floor(Math.random()*5))*144+135.2
+    state: "fine"
+
+    signal die();
     property alias image: image
+    property alias imageState: image.state
 
     property int hp: 200 + 1100
     property int atk: 100
-    property int speed: parent.width / 47
+    property int speed: 123 / 4.7
+    property bool atking: false
 
-    // get random number to set x or y
-    function getRandomNum(min, max) {
-        var range = max - min;
-        var rand = Max.random();
-        return (min + Math.round(rand * range));
+    // be atked
+    function attacked(atk) {
+        hp -= atk;
     }
 
-    // change state by argument from "view"
+    // change state by argument
     function stateChange(argument) {
         image.state = argument
     }
 
+    // change state by hp
     onHpChanged: {
         if(! hp > 0) {
-            image.state = die
+            stateChange("head");
+            stateInterval.running = true;
+        }
+    }
+
+    // atking state
+    onAtkingChanged: {
+        if(atking === true) {
+            stateChange("attack");
+        }
+        else if(akting === false && hp > 0) {
+            stateChange("fine");
+        }
+    }
+
+    // sequently set different state
+    Timer {
+        id: stateInterval
+        interval: 500; running: false; repeat: true
+        onTriggered: {
+            if(imageState === "head") {
+                stateChange("lostHead");
+            }else if(imageState === "lostHead") {
+                stateChange("die");
+                stateInterval.repeat = false;
+                root.die();
+            }
         }
     }
 
@@ -37,17 +63,13 @@ Item {
     NumberAnimation on x {
         target: root
         to: 0
-        duration: speed
-        running: hp > 0
+        duration: 1260 / speed * 1000
+        running: hp > 0 && atking === false
     }
 
     // zombie interface
-    Rectangle {
-        id: basicZombie
-
         AnimatedImage {
             id: image
-            state: fine
         }
 
         // some states
@@ -95,5 +117,4 @@ Item {
                 }
             }
         ]
-    }
 }
