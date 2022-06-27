@@ -16,4 +16,8 @@ Item {
         repeat: true;
 //        onTriggered: hasZombie   //有zombie在同一y轴
     }
+    function isAttacked(zombieAtk){
+        if(zombieAtk)
+            hp-=zombieAtk
+    }
 }

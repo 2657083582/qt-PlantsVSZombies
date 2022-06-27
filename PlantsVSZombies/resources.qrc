@@ -60,5 +60,7 @@
         <file>images/plants/PeaShooter.png</file>
         <file>images/plants/CherryBomb.png</file>
         <file>images/plants/Boom.gif</file>
+        <file>images/interface/Sun.gif</file>
+        <file>SelfSun.qml</file>
     </qresource>
 </RCC>

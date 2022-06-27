@@ -12,6 +12,7 @@ Item {
     id:shop
     width: 446*2.4
     height: 87*1.6
+    property alias sun : sun
     Image{
         anchors.fill: parent
         fillMode: Image.Stretch

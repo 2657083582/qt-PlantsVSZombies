@@ -67,6 +67,10 @@ Item {
         }
 
     ]
+    function isAttacked(zombieAtk){
+        if(zombieAtk)
+            hp-=zombieAtk
+    }
 
 //    DSM.StateMachine{
 //        id:stateMachine

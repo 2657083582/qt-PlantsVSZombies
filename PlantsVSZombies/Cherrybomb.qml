@@ -19,4 +19,8 @@ Item {
          repeat: false
          onTriggered: animatedImage.source="qrc:/images/plants/Boom.gif"
      }
+     function isAttacked(zombieAtk){
+         if(zombieAtk)
+             hp-=zombieAtk
+     }
 }

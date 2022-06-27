@@ -17,6 +17,10 @@ Item {
          else if(hp>0&&hp<4000/3)
              animatedImage.source="qrc:/images/plants/WallNutCracked2.gif"
      }
+     function isAttacked(zombieAtk){
+         if(zombieAtk)
+             hp-=zombieAtk
+     }
 //     function Death(hp){
 //         if(hp<=0)
 //             delete wallNut

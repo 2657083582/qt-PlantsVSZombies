@@ -245,7 +245,8 @@ Item {
         onRunningChanged: {
             if(totaltimer.running===true)
                 totaltimer.start()
-                sigleZombieTimer.running=true
+                singleZombieTimer.running=true
+                singleSunTimer.running=true
         }
 
     }
@@ -256,15 +257,44 @@ Item {
 //            console.log("row:"+row,"posY:"+posY)
             var newZombie=Qt.createQmlObject('BasicZombie{}',map)
         }
-        id:sigleZombieTimer
+        id:singleZombieTimer
         interval: 1500
         repeat: true
         running: false
-        onRunningChanged: sigleZombieTimer.start()
+        onRunningChanged: singleZombieTimer.start()
         onTriggered: {
-            sigleZombieTimer.createZombie()
+            singleZombieTimer.createZombie()
             console.log("zombie is coming!")
         }
     }
+    Timer{
+        function createSun(){
+            var sun=Qt.createQmlObject('Sun{}',map)
+        }
+        id:singleSunTimer
+        interval: 4000
+        repeat: true
+        running:false
+        onRunningChanged: singleSunTimer.start()
+        onTriggered:{
+            singleSunTimer.createSun()
+            console.log("Sun is producting")
+        }
+    }
+    Timer{
+        function createSelfSun(){
+            Qt.createQmlObject('SelfSun{}',map)
+        }
+        id:creatSelfSun
+        interval: 2000
+        running:true
+        repeat: true
+        onRunningChanged:creatSelfSun.start()
+        onTriggered: {
+            creatSelfSun.createSelfSun()
+            console.log("sunflower")
+        }
+    }
+
     //BasicZombie{}
 }
