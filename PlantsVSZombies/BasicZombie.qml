@@ -3,24 +3,16 @@ import QtQuick
 Item {
     id: root
     // to be confirmed
-    x: parent.height / getRandomNum(min, max)
-    y: parent.width / getRandomNum(min, max)
-
-//    property alias hp: hp
-//    property alias atk: atk
-//    property alias speed: speed
+    y: (Math.floor(Math.random()*5))*144+135.2
+    x:1200
     property alias image: image
 
     property int hp: 200
     property int atk: 100
-    property int speed: parent.width / 47
-
-    // get random number to set x or y
-    function getRandomNum(min, max) {
-        var range = max - min;
-        var rand = Max.random();
-        return (min + Math.round(rand * range));
-    }
+    property int speed: parent.width/47
+    width: 123
+    height: 144
+    state: "fine"
 
     // change state by argument from "view"
     function stateChange(argument) {
@@ -34,21 +26,26 @@ Item {
     }
 
     // advance
-    NumberAnimation on x {
-        target: root
-        to: 0
-        duration: speed
-        running: hp > 0
-    }
+
+
 
     // zombie interface
-    Rectangle {
-        id: basicZombie
+    AnimatedImage {
+        anchors.fill: parent
+        id: image
+        source:"qrc:/images/Zombies/NormalZombie/NormalZombie.gif"
 
-        AnimatedImage {
-            id: image
-            state: fine
+    }
+    NumberAnimation on x {
+        to: 0
+        duration: speed*1000
+        running: true
+
+        Component.onCompleted: {
+            console.log(duration)
+            console.log("moving")
         }
+    }
 
         // some states
         states: [
@@ -95,5 +92,4 @@ Item {
                 }
             }
         ]
-    }
 }

@@ -1,12 +1,23 @@
 import QtQuick
+import QtQuick.Controls
 import an.qt.PlantArr 1.0
 
 Item {
+    property alias map: map
     id:map
     property alias grid:grid
+    property alias totaltimer: totaltimer
     property int phase:0
 
-    onPhaseChanged: img.state=this.phase===0?"preparatory phase":"combat phase"
+    //onPhaseChanged:
+    onPhaseChanged: {
+        img.state=this.phase===0?"preparatory phase":"combat phase"
+        grid.visible=map.phase===0?true:false
+        chooser.visible=map.phase===0?false:true
+        btn.visible=map.phase===0?false:true
+        grid.focus=map.phase===0?true:false
+
+    }
     Image{
         id:img
         anchors.fill: parent
@@ -77,7 +88,7 @@ Item {
                 width: 123
                 height:144
                 //border.color:"transparent"
-                border.color: "black"
+                //border.color: "black"
                 color:mouse.hovered?Qt.rgba(154,205,50,0.4):"transparent"
                 focus: true
                 Rectangle{
@@ -92,10 +103,13 @@ Item {
                         if(plantName==="sunFlower"){
                             newplant=
                             Qt.createQmlObject('Sunflower{anchors.fill:parent}',plantcontainer);
+
+
                         }
                         if(plantName==="peaShooter"){
                             newplant=
                             Qt.createQmlObject('Peashooter{anchors.fill:parent}',plantcontainer);
+
                         }
                         if(plantName==="potatoMine"){
                             newplant=Qt.createQmlObject
@@ -115,6 +129,7 @@ Item {
                         }
 
                         plantArr.setItemVec(row,col,newplant);
+                        console.log(newplant.hp)
                     }
 
                     id:plantcontainer
@@ -153,10 +168,8 @@ Item {
                             shovel.selected=false;
                         }
 
-
                      }
                 }
-
            }
 
        }
@@ -192,4 +205,66 @@ Item {
 
 
     }
+
+    SeedChooser{
+        z:1
+        id:chooser
+        visible:true
+        focus:true
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.leftMargin: 60
+        anchors.topMargin: 160
+    }
+
+    Button{
+        id:btn
+        width: 200
+        height: 40
+
+        anchors.top:chooser.bottom
+        anchors.horizontalCenter: chooser.horizontalCenter
+        anchors.topMargin: 0
+        text:"Start"
+        font.pixelSize: 30
+        onClicked: {
+            map.phase=map.phase===0?1:0
+            totaltimer.running=true
+        }
+
+
+    }
+
+
+    Timer{
+        id:totaltimer
+        interval: 12000
+        repeat: false
+        running:false
+
+        onRunningChanged: {
+            if(totaltimer.running===true)
+                totaltimer.start()
+                sigleZombieTimer.running=true
+        }
+
+    }
+    Timer{
+        function createZombie(){
+//            var row=Math.floor(Math.random()*5);
+//            var posY=139.2+row*144;
+//            console.log("row:"+row,"posY:"+posY)
+            var newZombie=Qt.createQmlObject('BasicZombie{}',map)
+        }
+        id:sigleZombieTimer
+        interval: 1500
+        repeat: true
+        running: false
+        onRunningChanged: sigleZombieTimer.start()
+        onTriggered: {
+            sigleZombieTimer.createZombie()
+            console.log("zombie is coming!")
+        }
+    }
+    //BasicZombie{}
 }

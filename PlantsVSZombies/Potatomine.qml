@@ -10,7 +10,7 @@ Item {
     //Rectangle{
         AnimatedImage{
             id:animatedImage
-            source: "qrc:/images/plants/PotatoMineNotReady.gif"
+            //source: "qrc:/images/plants/PotatoMineNotReady.gif"
             visible:true       
             anchors.fill: parent
             onStatusChanged: playing=(status!==animatedImage.Ready)

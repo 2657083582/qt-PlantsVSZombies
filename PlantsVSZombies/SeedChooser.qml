@@ -82,7 +82,7 @@ Rectangle{
                                 temp=shop.listModel.get(i).name
                                 if(temp===card.name)
                                 {
-                                    console.log("remove:"+i)
+                                    //console.log("remove:"+i)
                                     break;
                                 }
                             }

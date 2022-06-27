@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtMultimedia
 
 ApplicationWindow {
+
     id:window
     width: 1260
     height: 900
@@ -16,42 +17,7 @@ ApplicationWindow {
     Map{
         id:map
         anchors.fill: parent
-        //phase: 0
 
-        SeedChooser{
-            z:1
-            id:chooser
-            visible:true
-            focus:true
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.leftMargin: 60
-            anchors.topMargin: 160
-        }
-
-        Button{
-            id:btn
-            width: 200
-            height: 40
-
-            anchors.top:chooser.bottom
-            anchors.horizontalCenter: chooser.horizontalCenter
-            anchors.topMargin: 0
-            text:"Start"
-            font.pixelSize: 30
-            onClicked: {
-                map.phase=map.phase===0?1:0
-            }
-
-
-        }
-        onPhaseChanged: {
-            grid.visible=map.phase===0?true:false
-            chooser.visible=map.phase===0?false:true
-            btn.visible=map.phase===0?false:true
-            grid.focus=map.phase===0?true:false
-
-        }
     }
 
     Shop{
