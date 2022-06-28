@@ -1,9 +1,10 @@
 import QtQuick
 
 Item {
+    //property  alias Peashooter: peaShooter
     id:peaShooter
     property int hp:300
-    property bool createPeaFlag: true
+    property bool createPeaFlag: false
 
     AnimatedImage{
         id:animatedImage

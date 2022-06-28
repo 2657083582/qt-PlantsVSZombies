@@ -4,6 +4,7 @@ import an.qt.PlantArr 1.0
 import an.qt.ZombieArr 1.0
 
 Item {
+    property alias plantArr: plantArr
     property alias map: map
     id:map
     property alias grid:grid
@@ -217,8 +218,74 @@ Item {
             plantArr.showItemVec()
             plantArr.showTempArr()
         }
+        onRow1Attack:{
+            for(var i=0;i<9;++i){
+                if(plantArr.getItemVec(0,i)!==null)
+                    plantArr.getItemVec(0,i).createPeaFlag=true;
+                else
+                    continue;
+            }
+        }
+        onRow2Attack:{
+            for(var i=0;i<9;++i){
+                if(plantArr.getItemVec(1,i)!==null)
+                    plantArr.getItemVec(1,i).createPeaFlag=true;
+                else
+                    continue;
+            }
+        }
+        onRow3Attack:{
+            for(var i=0;i<9;++i){
+                if(plantArr.getItemVec(2,i)!==null)
+                    plantArr.getItemVec(2,i).createPeaFlag=true;
+                else
+                    continue;
+            }
+        }
+        onRow4Attack:{
+            for(var i=0;i<9;++i){
+                if(plantArr.getItemVec(3,i)!==null)
+                    plantArr.getItemVec(3,i).createPeaFlag=true;
+                else
+                    continue;
+            }
+        }
+        onRow5Attack:{
+            for(var i=0;i<9;++i){
+                if(plantArr.getItemVec(4,i)!==null)
+                    plantArr.getItemVec(4,i).createPeaFlag=true;
+                else
+                    continue;
+            }
+            console.log("row 5 attack")
+        }
+
     }
-    ZombieArr{id:zombieArr}
+    ZombieArr{
+        id:zombieArr
+        onAppendZombie: {zombieArr.ZombieExist}
+        onRow1hasZombie:{
+            plantArr.row1Attack()
+            //console.log("row 1 has zombie!");
+        }
+        onRow2hasZombie:{
+            plantArr.row2Attack()
+            //console.log("row 2 has zombie!");
+        }
+        onRow3hasZombie:{
+            plantArr.row3Attack()
+            //console.log("row 3 has zombie!");
+        }
+        onRow4hasZombie:{
+            plantArr.row4Attack()
+            //console.log("row 4 has zombie!");
+        }
+        onRow5hasZombie:{
+            plantArr.row5Attack()
+            //console.log("row 5 has zombie!");
+        }
+    }
+
 
     SeedChooser{
         z:1
@@ -268,8 +335,9 @@ Item {
     Timer{
         function createZombie(){
             var newZombie=Qt.createQmlObject('BasicZombie{}',map)
-            zombieArr.appendZombieList(newZombie.row,newZombie)
-            //console.log(zombieArr.getZombie(newZombie.row,0).hp)
+            zombieArr.appendZombieList(newZombie.row+1,newZombie)
+            zombieArr.zombieExist(newZombie.row+1)
+            console.log("hp:"+zombieArr.getZombie(newZombie.row+1,0).hp)
         }
         id:singleZombieTimer
         interval: 5000

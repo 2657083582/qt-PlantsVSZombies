@@ -36,6 +36,13 @@ signals:
 
     void tempArrChanged();//当tempArr改变时发出信号
 
+    void row1Attack();
+    void row2Attack();
+    void row3Attack();
+    void row4Attack();
+    void row5Attack();
+
+
 public slots:
     void updateTempArr();//更新tempArr
 };
