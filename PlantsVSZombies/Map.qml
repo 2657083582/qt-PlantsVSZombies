@@ -281,20 +281,7 @@ Item {
             console.log("Sun is producting")
         }
     }
-    Timer{
-        function createSelfSun(){
-            Qt.createQmlObject('SelfSun{}',map)
-        }
-        id:creatSelfSun
-        interval: 2000
-        running:true
-        repeat: true
-        onRunningChanged:creatSelfSun.start()
-        onTriggered: {
-            creatSelfSun.createSelfSun()
-            console.log("sunflower")
-        }
-    }
+
 
     //BasicZombie{}
 }
