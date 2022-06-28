@@ -3,7 +3,7 @@ import QtQuick
 Item {
     id:rePeaShooter
     property int hp:300
-    property bool createPeaFlag: true
+    property bool createPeaFlag: false
 
     AnimatedImage{
         id:animatedImage
