@@ -254,6 +254,7 @@ Item {
         function createZombie(){
             var newZombie=Qt.createQmlObject('BasicZombie{}',map)
             zombieArr.appendZombieList(newZombie.row,newZombie)
+            //console.log(zombieArr.getZombie(newZombie.row,0).hp)
         }
         id:singleZombieTimer
         interval: 1500
