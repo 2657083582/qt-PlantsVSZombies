@@ -1,13 +1,13 @@
 import QtQuick
 
 Item {
-    id:peaShooter
+    id:snowPeaShooter
     property int hp:300
     property bool createPeaFlag: true
 
     AnimatedImage{
         id:animatedImage
-        source: "qrc:/images/plants/PeaShooter.gif"
+        source: "qrc:/images/plants/SnowPeaShooter.gif"
         visible:true
         anchors.fill: parent
     }
@@ -17,16 +17,16 @@ Item {
             hp-=zombieAtk
     }
 
-    function createPeas() {
-        var newPea = Qt.createQmlObject('Pea{x: 123 * 0.75 * 0.65; y: 144 * 0.1 * 0.5}', peaShooter);
+    function createSnowPeas() {
+        var newSnowPea = Qt.createQmlObject('SnowPea{x: 123 * 0.75 * 0.65; y: 144 * 0.1 * 0.5}', snowPeaShooter);
     }
 
     Timer {
-        id: createPea
+        id: createSnowPea
         interval: 3000; running: true; repeat: true
         onTriggered: {
             if(createPeaFlag === true) {
-                createPeas();
+                createSnowPeas();
             }
         }
     }

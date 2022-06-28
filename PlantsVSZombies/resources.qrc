@@ -40,8 +40,6 @@
         <file>images/plants/PotatoMineNotReady.gif</file>
         <file>images/plants/PotatoMineText.gif</file>
         <file>images/plants/Repeater.gif</file>
-        <file>images/plants/SnowPea.gif</file>
-        <file>images/plants/SnowPeaBullet.gif</file>
         <file>images/plants/SunFlower.gif</file>
         <file>images/plants/WallNut.gif</file>
         <file>images/plants/WallNutCracked1.gif</file>
@@ -54,14 +52,15 @@
         <file>images/interface/Background.jpg</file>
         <file>images/plants/WallNut.png</file>
         <file>images/plants/SunFlower.png</file>
-        <file>images/plants/SnowPea.png</file>
         <file>images/plants/Repeater.png</file>
         <file>images/plants/PotatoMine.png</file>
         <file>images/plants/PeaShooter.png</file>
         <file>images/plants/CherryBomb.png</file>
         <file>images/plants/Boom.gif</file>
         <file>images/interface/Sun.gif</file>
-        <file>SelfSun.qml</file>
         <file>images/interface/LawnMower.gif</file>
+        <file>images/plants/SnowPea.gif</file>
+        <file>images/plants/SnowPeaShooter.gif</file>
+        <file>images/plants/SnowPeaShooter.png</file>
     </qresource>
 </RCC>

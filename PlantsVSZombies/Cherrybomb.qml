@@ -2,7 +2,7 @@ import QtQuick
 
 Item {
      //property alias timer: timer
-
+     signal testsignal()
      id:cherryBomb
      property int hp:300
      property int damage:1800
@@ -15,10 +15,24 @@ Item {
      //}
      Timer{
          id:timer
-         interval: 1500 ; running: true
+         interval: 800; running: true
          repeat: false
-         onTriggered: animatedImage.source="qrc:/images/plants/Boom.gif"
+         onTriggered: {
+             animatedImage.source="qrc:/images/plants/Boom.gif"
+             timer2.running=true
+         }
      }
+     Timer{
+         id:timer2
+         interval:600; running:false
+         repeat: false
+         onTriggered: {
+             cherryBomb.hp=0
+             cherryBomb.visible=false//爆炸后隐藏视图但未销毁对象
+             cherryBomb.testsignal()
+         }
+     }
+
      function isAttacked(zombieAtk){
          if(zombieAtk)
              hp-=zombieAtk

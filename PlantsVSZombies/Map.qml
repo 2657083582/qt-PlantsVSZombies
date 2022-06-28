@@ -129,8 +129,14 @@ Item {
                                     ('Potatomine{anchors.fill:parent}',plantcontainer);
                         }
 
-//                        if(plantName==="Reapter") Qt.createQmlObject("Reapter.qml");
-//                        if(plantName==="snowPea") Qt.createQmlObject("Snowpea.qml");
+                        if(plantName==="Reapter"){
+                            newplant=Qt.createQmlObject
+                                    ('RepeaShooter{anchors.fill:parent}',plantcontainer)
+                        }
+
+                        if(plantName==="snowPea")
+                            newplant=Qt.createQmlObject
+                                    ('SnowPeaShooter{anchors.fill:parent}',plantcontainer)
 
                         if(plantName==="cherryBomb"){
                             newplant=Qt.createQmlObject

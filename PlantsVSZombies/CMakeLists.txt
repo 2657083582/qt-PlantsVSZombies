@@ -51,6 +51,9 @@ qt_add_qml_module(appplaneVsZombie
     Sun.qml
     SelfSun.qml
     MowerCreator.qml
+    SnowPeaShooter.qml
+    SnowPea.qml
+    RepeaShooter.qml
 )
 
 # auto add .h and .cpp for sources

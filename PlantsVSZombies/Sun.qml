@@ -9,7 +9,7 @@ Item {
             visible: true
             NumberAnimation on y{
                 id:fallenSun
-                from: 100; to:Math.random()*800
+                from: 100; to:Math.random()*(800-150)+150
                 duration: 6000; running: true
             }
             TapHandler{

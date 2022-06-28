@@ -6,7 +6,7 @@ Rectangle{
         var filepaths=[
                 "qrc:/images/plants/SunFlower.png","qrc:/images/plants/PeaShooter.png",
                 "qrc:/images/plants/PotatoMine.png","qrc:/images/plants/Repeater.png",
-                "qrc:/images/plants/SnowPea.png","qrc:/images/plants/CherryBomb.png",
+                "qrc:/images/plants/SnowPeaShooter.png","qrc:/images/plants/CherryBomb.png",
                 "qrc:/images/plants/WallNut.png"];
         var costs=["50","100","25","200","175","150","50"];
         var names=["sunFlower","peaShooter","potatoMine","Reapter","snowPea","cherryBomb","wallNut"];
