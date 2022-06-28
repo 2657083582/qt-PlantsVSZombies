@@ -4,6 +4,7 @@ import an.qt.PlantArr 1.0
 import an.qt.ZombieArr 1.0
 
 Item {
+    property alias plantArr: plantArr
     property alias map: map
     id:map
     property alias grid:grid
@@ -212,18 +213,44 @@ Item {
             plantArr.showTempArr()
         }
         onRow1Attack:{
-            console.log("row 1 attack")
+            for(var i=0;i<9;++i){
+                if(plantArr.getItemVec(0,i)!==null)
+                    plantArr.getItemVec(0,i).createPeaFlag=true;
+                else
+                    continue;
+            }
         }
         onRow2Attack:{
-            console.log("row 2 attack")
+            for(var i=0;i<9;++i){
+                if(plantArr.getItemVec(1,i)!==null)
+                    plantArr.getItemVec(1,i).createPeaFlag=true;
+                else
+                    continue;
+            }
         }
         onRow3Attack:{
-            console.log("row 3 attack")
+            for(var i=0;i<9;++i){
+                if(plantArr.getItemVec(2,i)!==null)
+                    plantArr.getItemVec(2,i).createPeaFlag=true;
+                else
+                    continue;
+            }
         }
         onRow4Attack:{
-            console.log("row 4 attack")
+            for(var i=0;i<9;++i){
+                if(plantArr.getItemVec(3,i)!==null)
+                    plantArr.getItemVec(3,i).createPeaFlag=true;
+                else
+                    continue;
+            }
         }
         onRow5Attack:{
+            for(var i=0;i<9;++i){
+                if(plantArr.getItemVec(4,i)!==null)
+                    plantArr.getItemVec(4,i).createPeaFlag=true;
+                else
+                    continue;
+            }
             console.log("row 5 attack")
         }
 

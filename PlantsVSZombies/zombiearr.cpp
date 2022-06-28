@@ -126,7 +126,7 @@ void ZombieArr::zombieExist(int i)
             emit row4hasZombie();
     }
     case 5:{if(!zombieList5.isEmpty())
-            emit row4hasZombie();
+            emit row5hasZombie();
         }
     }
 }
