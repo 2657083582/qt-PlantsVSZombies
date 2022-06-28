@@ -3,7 +3,7 @@ import QtQuick
 Item {
     id: root
     property int row: Math.floor(Math.random()*5)
-    x: parent.width
+    x: parent.width*0.95
     y: row*144+135.2
     width: 123
     height: 144
