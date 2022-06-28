@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import an.qt.PlantArr 1.0
+import an.qt.ZombieArr 1.0
 
 Item {
     property alias map: map
@@ -202,9 +203,8 @@ Item {
             plantArr.showTempArr()
 
         }
-
-
     }
+    ZombieArr{id:zombieArr}
 
     SeedChooser{
         z:1
@@ -252,10 +252,9 @@ Item {
     }
     Timer{
         function createZombie(){
-//            var row=Math.floor(Math.random()*5);
-//            var posY=139.2+row*144;
-//            console.log("row:"+row,"posY:"+posY)
             var newZombie=Qt.createQmlObject('BasicZombie{}',map)
+            zombieArr.appendZombieList(newZombie.row,newZombie)
+            //console.log(zombieArr.getZombie(newZombie.row,0).hp)
         }
         id:singleZombieTimer
         interval: 1500
