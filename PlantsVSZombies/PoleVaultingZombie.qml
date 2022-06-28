@@ -7,6 +7,8 @@ Item {
     y: (Math.floor(Math.random()*5))*144+135.2
     state: "fine"
 
+    signal left();
+    signal mower();
     signal die();
     property alias image: image
     property alias imageState: image.state
@@ -25,6 +27,15 @@ Item {
     // change state by argument
     function stateChange(argument) {
         image.state = argument
+    }
+
+    // zombie arrived left
+    onXChanged: {
+        if(root.x < 100) {
+            root.mower();
+        } else if(root.x < 1) {
+            root.left();
+        }
     }
 
     // change state by hp
@@ -68,6 +79,7 @@ Item {
                 stateChange("die");
                 stateInterval.repeat = false;
                 root.die();
+                image.visible = false;
             }
         }
     }

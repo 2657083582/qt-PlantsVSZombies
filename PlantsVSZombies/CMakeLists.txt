@@ -49,6 +49,7 @@ qt_add_qml_module(appplaneVsZombie
     SeedChooser.qml
     Sun.qml
     SelfSun.qml
+    MowerCreator.qml
 )
 
 # auto add .h and .cpp for sources

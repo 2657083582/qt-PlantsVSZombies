@@ -9,6 +9,8 @@ Item {
     height: 144
     state: "fine"
 
+    signal left();
+    signal mower();
     signal die();
     property alias image: image
     property alias imageState: image.state
@@ -28,6 +30,15 @@ Item {
     // change state by argument
     function stateChange(argument) {
         image.state = argument
+    }
+
+    // zombie arrived left
+    onXChanged: {
+        if(root.x < 100 && root.x > 50) {
+            root.mower();
+        } else if(root.x < 10) {
+            root.left();
+        }
     }
 
     // change state by hp
@@ -60,6 +71,7 @@ Item {
                 stateChange("die");
                 stateInterval.repeat = false;
                 root.die();
+                image.visible = false;
             }
         }
     }
