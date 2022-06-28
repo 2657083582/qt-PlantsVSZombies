@@ -62,5 +62,6 @@
         <file>images/plants/Boom.gif</file>
         <file>images/interface/Sun.gif</file>
         <file>SelfSun.qml</file>
+        <file>images/interface/LawnMower.gif</file>
     </qresource>
 </RCC>

@@ -61,8 +61,20 @@ Item {
                 }
             }
         ]
+    }
 
-
+    Timer {
+        id: mowerTimer
+        interval: 1500
+        repeat: false
+        running: false
+        triggeredOnStart: false
+        onTriggered: {
+            createMower()
+        }
+        function createMower() {
+           var newMower = Qt.createQmlObject('MowerCreator{}',map)
+        }
     }
 
     Grid{
@@ -168,11 +180,9 @@ Item {
                             }
                             shovel.selected=false;
                         }
-
                      }
                 }
            }
-
        }
         //存储grid中每个rectangle的行和列
         ListModel{
@@ -187,7 +197,6 @@ Item {
             Component.onCompleted: {
                 myGridModel.createMolde()
             }
-
         }
     }
 
@@ -269,11 +278,11 @@ Item {
         onClicked: {
             map.phase=map.phase===0?1:0
             totaltimer.running=true
+            mowerTimer.running = true
         }
 
 
     }
-
 
     Timer{
         id:totaltimer
@@ -289,6 +298,7 @@ Item {
         }
 
     }
+
     Timer{
         function createZombie(){
             var newZombie=Qt.createQmlObject('BasicZombie{}',map)
@@ -303,7 +313,6 @@ Item {
         onRunningChanged: singleZombieTimer.start()
         onTriggered: {
             singleZombieTimer.createZombie()
-            console.log("zombie is coming!")
         }
     }
     Timer{
@@ -317,7 +326,6 @@ Item {
         onRunningChanged: singleSunTimer.start()
         onTriggered:{
             singleSunTimer.createSun()
-            console.log("Sun is producting")
         }
     }
 

@@ -3,22 +3,23 @@ import QtQuick
 Item {
     id: root
     property int row: Math.floor(Math.random()*5)
-    x: parent.width*0.95
+    x: parent.width
     y: row*144+135.2
     width: 123
     height: 144
     state: "fine"
 
+    signal leftest();
+    signal mower();
     signal die();
     property alias image: image
     property alias imageState: image.state
+    property alias advance: advance
 
     property int hp: 200
     property int atk: 100
     property int speed: 123 / 4.7
     property bool atking: false
-
-    Component.onCompleted: console.log(x)
 
     // be atked
     function attacked(atk) {
@@ -28,6 +29,19 @@ Item {
     // change state by argument
     function stateChange(argument) {
         image.state = argument
+    }
+
+    // zombie arrived left
+    // error: connot emit single signal
+    onXChanged: {
+        if(root.x < 100 && root.x > 99) {
+            root.mower();
+            console.log("mover");
+        }
+        if(root.x < 2 && root.x > 1) {
+            root.leftest();
+            console.log("leftest");
+        }
     }
 
     // change state by hp
@@ -60,12 +74,14 @@ Item {
                 stateChange("die");
                 stateInterval.repeat = false;
                 root.die();
+                image.visible = false;
             }
         }
     }
 
     // advance
     NumberAnimation on x {
+        id: advance
         to: 0
         duration: 1260 / speed * 1000
         running: hp > 0 && atking === false
