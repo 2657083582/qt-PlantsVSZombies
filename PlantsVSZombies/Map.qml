@@ -266,13 +266,12 @@ Item {
             //console.log(zombieArr.getZombie(newZombie.row,0).hp)
         }
         id:singleZombieTimer
-        interval: 1500
+        interval: 5000
         repeat: true
         running: false
         onRunningChanged: singleZombieTimer.start()
         onTriggered: {
             singleZombieTimer.createZombie()
-            console.log("zombie is coming!")
         }
     }
     Timer{
@@ -286,7 +285,6 @@ Item {
         onRunningChanged: singleSunTimer.start()
         onTriggered:{
             singleSunTimer.createSun()
-            console.log("Sun is producting")
         }
     }
 

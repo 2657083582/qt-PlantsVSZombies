@@ -5,13 +5,16 @@ Item {
 
     x: parent.width
     y: (Math.floor(Math.random()*5))*144+135.2
+    width: 123
+    height: 144
     state: "fine"
 
-    signal left();
+    signal leftest();
     signal mower();
     signal die();
     property alias image: image
     property alias imageState: image.state
+    property alias advance: advance
 
     property int hp: 200 + 1100
     property int atk: 100
@@ -29,11 +32,15 @@ Item {
     }
 
     // zombie arrived left
+    // error: connot emit single signal
     onXChanged: {
-        if(root.x < 100) {
+        if(root.x < 100 && root.x > 99) {
             root.mower();
-        } else if(root.x < 1) {
-            root.left();
+            console.log("mover");
+        }
+        if(root.x < 2 && root.x > 1) {
+            root.leftest();
+            console.log("leftest");
         }
     }
 
@@ -73,7 +80,7 @@ Item {
 
     // advance
     NumberAnimation on x {
-        target: root
+        id: advance
         to: 0
         duration: 1260 / speed * 1000
         running: hp > 0 && atking === false
@@ -82,6 +89,7 @@ Item {
     // zombie interface
         AnimatedImage {
             id: image
+            anchors.fill: parent
         }
 
         // some states

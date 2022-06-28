@@ -2,25 +2,24 @@ import QtQuick
 
 Item {
     id: root
-    property int row: Math.floor(Math.random()*5)
+
     x: parent.width
-    y: row*144+135.2
+    y: (Math.floor(Math.random()*5))*144+135.2
     width: 123
     height: 144
     state: "fine"
 
-    signal left();
+    signal leftest();
     signal mower();
     signal die();
     property alias image: image
     property alias imageState: image.state
+    property alias advance: advance
 
     property int hp: 200
     property int atk: 100
     property int speed: 123 / 4.7
     property bool atking: false
-
-    Component.onCompleted: console.log(x)
 
     // be atked
     function attacked(atk) {
@@ -33,11 +32,15 @@ Item {
     }
 
     // zombie arrived left
+    // error: connot emit single signal
     onXChanged: {
-        if(root.x < 100 && root.x > 50) {
+        if(root.x < 100 && root.x > 99) {
             root.mower();
-        } else if(root.x < 10) {
-            root.left();
+            console.log("mover");
+        }
+        if(root.x < 2 && root.x > 1) {
+            root.leftest();
+            console.log("leftest");
         }
     }
 
@@ -78,6 +81,7 @@ Item {
 
     // advance
     NumberAnimation on x {
+        id: advance
         to: 0
         duration: 1260 / speed * 1000
         running: hp > 0 && atking === false
