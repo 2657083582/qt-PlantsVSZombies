@@ -109,24 +109,38 @@ void ZombieArr::swapTwoZombiesInZombieList(int i, int index1, int index2)
     emit swapZombie();
 }
 
-void ZombieArr::zombieExist(int i)
+void ZombieArr::zombieExist(/*int i*/)
 {
-    bool flag=false;
+    if(!zombieList1.isEmpty())
+        emit row1hasZombie();
+    if(!zombieList2.isEmpty())
+        emit row2hasZombie();
+    if(!zombieList3.isEmpty())
+        emit row3hasZombie();
+    if(!zombieList4.isEmpty())
+        emit row4hasZombie();
+    if(!zombieList5.isEmpty())
+        emit row5hasZombie();
+}
+
+int ZombieArr::lengthOfZombieList(int i)
+{
     switch(i){
-    case 1:{if(!zombieList1.isEmpty())
-            emit row1hasZombie();
-    }
-    case 2:{if(!zombieList2.isEmpty())
-            emit row2hasZombie();
+    case 1:{
+        return zombieList1.length();
         }
-    case 3:{if(!zombieList3.isEmpty())
-            emit row3hasZombie();
-    }
-    case 4:{if(!zombieList4.isEmpty())
-            emit row4hasZombie();
-    }
-    case 5:{if(!zombieList5.isEmpty())
-            emit row5hasZombie();
+    case 2:{
+        return zombieList2.length();
+        }
+    case 3:{
+        return zombieList3.length();
+        }
+    case 4:{
+        return zombieList4.length();
+        }
+    case 5:{
+        return zombieList5.length();
         }
     }
+    return -1;
 }

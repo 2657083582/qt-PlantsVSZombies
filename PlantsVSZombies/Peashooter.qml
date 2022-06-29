@@ -5,6 +5,7 @@ Item {
     id:peaShooter
     property int hp:300
     property bool createPeaFlag: false
+    property bool canShot:true
 
     AnimatedImage{
         id:animatedImage

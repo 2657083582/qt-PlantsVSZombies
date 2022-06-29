@@ -27,6 +27,7 @@ public:
     Q_INVOKABLE void destoryTempArr();
     Q_INVOKABLE QQuickItem* getItemVec(int i,int j);//返回给定索引值对应的item
     Q_INVOKABLE void setItemVec(int i,int j,QQuickItem* item);//设置指定位置的item
+    Q_INVOKABLE int getTempArr(int i);
 
     Q_INVOKABLE void showItemVec();//控制台输出itemVec中的所有内容
     Q_INVOKABLE void showTempArr();//控制台输出tempArr的所有内容

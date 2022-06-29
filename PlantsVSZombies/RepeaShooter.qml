@@ -4,7 +4,7 @@ Item {
     id:rePeaShooter
     property int hp:300
     property bool createPeaFlag: false
-
+    property bool canShot:true
     AnimatedImage{
         id:animatedImage
         source: "qrc:/images/plants/Repeater.gif"

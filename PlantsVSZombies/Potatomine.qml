@@ -6,6 +6,7 @@ Item {
     property int hp:300
     property int damage:1800
     property int count:0
+    property bool canShot:false
     state:"PotatoMineNotReady"
     //Rectangle{
         AnimatedImage{

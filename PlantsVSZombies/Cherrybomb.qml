@@ -2,6 +2,7 @@ import QtQuick
 
 Item {
      //property alias timer: timer
+     property bool canShot:false
      signal testsignal()
      id:cherryBomb
      property int hp:300

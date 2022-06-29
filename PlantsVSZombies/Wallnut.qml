@@ -3,6 +3,7 @@ import QtQuick
 Item {
      id:wallNut
      property int hp:4000
+     property bool canShot:false
      //Rectangle{
          AnimatedImage{
              id:animatedImage

@@ -149,7 +149,7 @@ Item {
                         }
 
                         plantArr.setItemVec(row,col,newplant);
-                        console.log(newplant.hp)
+//                        console.log(newplant.hp)
                     }
 
                     id:plantcontainer
@@ -214,13 +214,15 @@ Item {
             plantArr.initItemVec()
             plantArr.initTempArr()
         }
-        onItemVecChanged: {plantArr.updateTempArr()
+        onItemVecChanged: {
+            plantArr.updateTempArr()
             plantArr.showItemVec()
             plantArr.showTempArr()
+
         }
         onRow1Attack:{
             for(var i=0;i<9;++i){
-                if(plantArr.getItemVec(0,i)!==null)
+                if((plantArr.getItemVec(0,i)!==null) && (plantArr.getItemVec(0,i).canShot))
                     plantArr.getItemVec(0,i).createPeaFlag=true;
                 else
                     continue;
@@ -228,7 +230,7 @@ Item {
         }
         onRow2Attack:{
             for(var i=0;i<9;++i){
-                if(plantArr.getItemVec(1,i)!==null)
+                if((plantArr.getItemVec(1,i)!==null) && (plantArr.getItemVec(1,i).canShot))
                     plantArr.getItemVec(1,i).createPeaFlag=true;
                 else
                     continue;
@@ -236,7 +238,7 @@ Item {
         }
         onRow3Attack:{
             for(var i=0;i<9;++i){
-                if(plantArr.getItemVec(2,i)!==null)
+                if((plantArr.getItemVec(2,i)!==null) && (plantArr.getItemVec(2,i).canShot))
                     plantArr.getItemVec(2,i).createPeaFlag=true;
                 else
                     continue;
@@ -244,7 +246,7 @@ Item {
         }
         onRow4Attack:{
             for(var i=0;i<9;++i){
-                if(plantArr.getItemVec(3,i)!==null)
+                if((plantArr.getItemVec(3,i)!==null) && (plantArr.getItemVec(3,i).canShot))
                     plantArr.getItemVec(3,i).createPeaFlag=true;
                 else
                     continue;
@@ -252,18 +254,17 @@ Item {
         }
         onRow5Attack:{
             for(var i=0;i<9;++i){
-                if(plantArr.getItemVec(4,i)!==null)
+                if((plantArr.getItemVec(4,i)!==null) && (plantArr.getItemVec(4,i).canShot))
                     plantArr.getItemVec(4,i).createPeaFlag=true;
                 else
                     continue;
             }
-            console.log("row 5 attack")
         }
 
     }
     ZombieArr{
         id:zombieArr
-        onAppendZombie: {zombieArr.ZombieExist}
+        //onAppendZombie: {zombieArr.ZombieExist}
         onRow1hasZombie:{
             plantArr.row1Attack()
             //console.log("row 1 has zombie!");
@@ -312,11 +313,14 @@ Item {
             map.phase=map.phase===0?1:0
             totaltimer.running=true
             mowerTimer.running = true
+            detectTimer.running=true
+            destroyTimer.running=true
         }
 
 
     }
 
+    //游戏时长定时器
     Timer{
         id:totaltimer
         interval: 12000
@@ -332,11 +336,12 @@ Item {
 
     }
 
+    //用于产生僵尸的定时器
     Timer{
         function createZombie(){
             var newZombie=Qt.createQmlObject('BasicZombie{}',map)
             zombieArr.appendZombieList(newZombie.row+1,newZombie)
-            zombieArr.zombieExist(newZombie.row+1)
+            zombieArr.zombieExist()
             console.log("hp:"+zombieArr.getZombie(newZombie.row+1,0).hp)
         }
         id:singleZombieTimer
@@ -348,6 +353,7 @@ Item {
             singleZombieTimer.createZombie()
         }
     }
+    //用于生产阳光的定时器
     Timer{
         function createSun(){
             var sun=Qt.createQmlObject('Sun{}',map)
@@ -361,6 +367,85 @@ Item {
             singleSunTimer.createSun()
         }
     }
+    //用于碰撞检测的定时器
+    Timer{
+        id:detectTimer
+        interval:500
+        repeat: true
+        running: false
+        onRunningChanged: detectTimer.start()
+        onTriggered: {
+            zombieArr.zombieExist()
+            detectTimer.detectZombieCollideWithPlant()
+        }
+
+        //碰撞检测（用于两个Item之间)
+        function collide(item1,item2){
+            if((item1.x+item1.width)>=item2.x){
+                return true;
+            }
+            return false;
+        }
+        //碰撞检测（当其中一个item的坐标不能直接获取，只能计算的到时用这个）
+        function collidePos(x,item){
+            if(x>=item.x){
+                return true;
+            }
+            return false;
+        }
+
+        //检测僵尸与植物是否碰撞
+        function detectZombieCollideWithPlant(){
+            for(var i=1;i<=5;i++){
+                var index=i-1;
+                var Cell=plantArr.getTempArr(index);
+                if(Cell===-1)
+                    continue;
+                for(var j=0;j<zombieArr.lengthOfZombieList(i);++j){
+                    var tempZombie=zombieArr.getZombie(i,j);
+
+                    console.log("row:"+i,"Cell:"+Cell,"zombierow:"+tempZombie.row);
+                    var plantX=Cell*123+160;
+                    var tempPlant=plantArr.getItemVec(index,Cell);
+                    console.log("plantX:"+plantX,"zombieX:"+tempZombie.x)
+                    if(collidePos(plantX,tempZombie)){
+                        tempZombie.atking=true;
+                        if(tempPlant!==null)
+                            tempPlant.hp-=tempZombie.atk
+                        else
+                            break;
+                    }
+                    if(tempPlant!==null && tempPlant.hp<=0){
+                        tempPlant.destroy();
+                        tempZombie.atk=false;
+                        plantArr.setItemVec(index,j,null);
+                        //return;
+                    }
+                }
+            }
+        }
+    }
+
+//    Timer{
+//        id:destroyTimer
+//        interval: 400
+//        repeat: true
+//        running: false
+//        onRunningChanged: destroyTimer.start()
+//        onTriggered: {
+
+//        }
+//        function detectPlantsHp(){
+//            for(var i=0;i<5;++i)
+//                for(var j=0;j<9;++j){
+//                    var temp=plantArr.getItemVec(i,j);
+//                    if(temp!==null && temp.hp<=0){
+//                        temp.destroy();
+//                        plantArr.setItemVec(i,j,null);
+//                    }
+//                }
+//        }
+//    }
 
 
     //BasicZombie{}

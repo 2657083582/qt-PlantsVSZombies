@@ -65,6 +65,11 @@ void PlantArr::setItemVec(int i ,int j, QQuickItem *item)
     emit itemVecChanged();
 }
 
+int PlantArr::getTempArr(int i)
+{
+    return tempArr[i];
+}
+
 void PlantArr::showItemVec()
 {
     for(int i=0;i<5;i++){

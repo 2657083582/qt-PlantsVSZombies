@@ -23,7 +23,8 @@ public:
     Q_INVOKABLE QQuickItem* getZombie(int i,int index);
     Q_INVOKABLE void removeZombieList(int i,int index,QQuickItem *item);
     Q_INVOKABLE void swapTwoZombiesInZombieList(int i,int index1,int index2);
-    Q_INVOKABLE void zombieExist(int i);
+    Q_INVOKABLE void zombieExist();
+    Q_INVOKABLE int lengthOfZombieList(int i);
 
 signals:
     void appendZombie();

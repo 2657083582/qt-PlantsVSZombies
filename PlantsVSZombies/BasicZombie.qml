@@ -13,7 +13,7 @@ Item {
     signal mower();
     signal die();
     property alias image: image
-    property alias imageState: image.state
+//    property alias imageState: image.state
     property alias advance: advance
 
     property int hp: 200
@@ -28,7 +28,7 @@ Item {
 
     // change state by argument
     function stateChange(argument) {
-        image.state = argument
+        root.state = argument
     }
 
     // zombie arrived left
@@ -56,7 +56,7 @@ Item {
     onAtkingChanged: {
         if(atking === true) {
             stateChange("attack");
-
+            console.log(image.state)
         }
         else if(akting === false && hp > 0) {
             stateChange("fine");
