@@ -468,6 +468,7 @@ Item {
                     if(collide(tempMower, tempZombie) && tempMower.visible === true) {
                         tempZombie.state = "head";
                         tempZombie.hp = 0;
+                        zombieArr.getZombie(i, j).hp = tempZombie.hp;
                     }
                 }
             }
@@ -503,7 +504,7 @@ Item {
             for(var i=1;i<=5;++i){
                 for(var j=0;j<zombieArr.lengthOfZombieList(i);++j){
                     var temp=zombieArr.getZombie(i,j);
-                    if(temp.hp<0){
+                    if(temp.hp<=0){
                         temp.destroy();
                         zombieArr.removeZombieList(i,j);
                     }
