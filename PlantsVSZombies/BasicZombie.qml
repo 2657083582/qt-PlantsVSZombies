@@ -55,7 +55,6 @@ Item {
     onAtkingChanged: {
         if(atking === true) {
             stateChange("attack");
-            console.log(image.state)
         }
         else if(hp > 0) {
             stateChange("fine");
@@ -67,13 +66,11 @@ Item {
         id: stateInterval
         interval: 500; running: false; repeat: true
         onTriggered: {
-            if(imageState === "head") {
+            if(root.state === "head") {
                 stateChange("lostHead");
-            }else if(imageState === "lostHead") {
-                stateChange("die");
+            }else if(root.state === "lostHead") {
+                //stateChange("die");
                 stateInterval.repeat = false;
-                root.die();
-                image.visible = false;
             }
         }
     }

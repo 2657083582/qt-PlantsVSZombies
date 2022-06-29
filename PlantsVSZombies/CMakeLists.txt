@@ -21,6 +21,7 @@ qt_add_executable(appplaneVsZombie
     plantarr.cpp    plantarr.h
     zombiearr.cpp   zombiearr.h
     peaarr.cpp      peaarr.h
+    mowerarr.cpp    mowerarr.h
     resources.qrc
 )
 
@@ -51,7 +52,6 @@ qt_add_qml_module(appplaneVsZombie
     SeedChooser.qml
     Sun.qml
     SelfSun.qml
-    MowerCreator.qml
     SnowPeaShooter.qml
     SnowPea.qml
     RepeaShooter.qml

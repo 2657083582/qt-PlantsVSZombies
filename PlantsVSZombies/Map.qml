@@ -3,6 +3,7 @@ import QtQuick.Controls
 import an.qt.PlantArr 1.0
 import an.qt.ZombieArr 1.0
 import an.qt.PeaArr 1.0
+import an.qt.MowerArr 1.0
 
 Item {
     property alias plantArr: plantArr
@@ -67,17 +68,27 @@ Item {
         ]
     }
 
+    MowerArr {
+        id: mowerArr
+    }
+
     Timer {
         id: mowerTimer
-        interval: 1500
+        interval: 499
         repeat: false
         running: false
         triggeredOnStart: false
         onTriggered: {
             createMower()
+
         }
         function createMower() {
-           var newMower = Qt.createQmlObject('MowerCreator{}',map)
+           for(var i = 0; i < 5; ++i) {
+               var newMower = Qt.createQmlObject('Mower{}',map);
+               newMower.y = 87 * 1.6 + 144 * i;
+               mowerArr.appendMowerList(newMower);
+               console.log("create mower " + i)
+           }
         }
     }
 
@@ -381,6 +392,9 @@ Item {
         onTriggered: {
             zombieArr.zombieExist()
             detectTimer.detectZombieCollideWithPlant()
+            detectTimer.detectZombieCollideWithMower()
+            detectTimer.detectMowerCollideWithZombie()
+
         }
 
         //碰撞检测（用于两个Item之间)
@@ -422,6 +436,36 @@ Item {
 
                 }
             }
+        }
+
+        // 检测僵尸与除草机的碰撞
+        function detectZombieCollideWithMower() {
+            for(var i = 1; i <= 5; i++) {
+                for(var j = 0; j < zombieArr.lengthOfZombieList(i); ++j){
+                    var tempZombie = zombieArr.getZombie(i,j);
+                    var mowerX = 100;
+                    if(collidePos(mowerX, tempZombie)) {
+                        var row = tempZombie.row;
+                        mowerArr.getMower(row).move = true;
+                    }
+                }
+            }
+        }
+
+        // 检测除草机与僵尸的碰撞
+        function detectMowerCollideWithZombie() {
+            for(var i = 1; i <= 5; i++) {
+                var tempMower = mowerArr.getMower(i - 1);
+                for(var j = 0; j < zombieArr.lengthOfZombieList(i); ++j){
+                    var tempZombie = zombieArr.getZombie(i,j);
+                    if(collide(tempMower, tempZombie) && tempMower.visible === true) {
+                        tempZombie.state = "head";
+                        tempZombie.hp = 0;
+                    }
+                }
+            }
+
+
         }
     }
 

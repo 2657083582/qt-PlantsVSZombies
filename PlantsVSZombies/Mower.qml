@@ -9,6 +9,12 @@ Item {
     property int speed: 123 / 4
     property bool move: false
 
+    onXChanged: {
+        if(x > 1270) {
+            root.visible = false
+        }
+    }
+
     AnimatedImage {
         anchors.fill: parent
         source:"qrc:/images/interface/LawnMower.gif"

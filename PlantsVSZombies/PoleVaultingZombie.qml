@@ -2,9 +2,9 @@ import QtQuick
 
 Item {
     id: root
-
+    property int row: Math.floor(Math.random()*5)
     x: parent.width
-    y: (Math.floor(Math.random()*5))*144+135.2
+    y: row*144+135.2
     width: 123
     height: 144
     state: "fine"
@@ -13,7 +13,6 @@ Item {
     signal mower();
     signal die();
     property alias image: image
-    property alias imageState: image.state
     property alias advance: advance
 
     property int hp: 200 + 230
@@ -29,7 +28,7 @@ Item {
 
     // change state by argument
     function stateChange(argument) {
-        image.state = argument
+        root.state = argument
     }
 
     // zombie arrived left
@@ -74,19 +73,17 @@ Item {
         id: stateInterval
         interval: 500; running: false; repeat: true
         onTriggered: {
-            if(imageState === "jump") {
+            if(root.state === "jump") {
                 stateChange("jump");
-            }else if(imageState === "jump2") {
+            }else if(root.state === "jump2") {
                 stateChange("jump2");
-            }else if(imageState === "jump2") {
+            }else if(root.state === "jump2") {
                 stateChange("walk");
-            }else if(imageState === "head") {
+            }else if(root.state === "head") {
                 stateChange("lostHead");
-            }else if(imageState === "lostHead") {
-                stateChange("die");
+            }else if(root.state === "lostHead") {
+                //stateChange("die");
                 stateInterval.repeat = false;
-                root.die();
-                image.visible = false;
             }
         }
     }
