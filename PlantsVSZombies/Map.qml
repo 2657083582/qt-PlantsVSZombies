@@ -394,7 +394,7 @@ Item {
             detectTimer.detectZombieCollideWithPlant()
             detectTimer.detectZombieCollideWithMower()
             detectTimer.detectMowerCollideWithZombie()
-
+            detectTimer.detectBombCollide()
         }
 
         //碰撞检测（用于两个Item之间)
@@ -424,25 +424,61 @@ Item {
                     var tempZombie=zombieArr.getZombie(i,j);
                     var plantX=Cell*123+160;
                     if(collidePos(plantX,tempZombie)){
-                        if(tempPlant.name==="potatoMine" && tempPlant.state==="PotatoMine"){
-                            tempPlant.touched=true
-                            //tempPlant.state="PotatoBoom"
-                            tempZombie.hp-=tempPlant.damage
-                            zombieArr.getZombie(i,j).hp=tempZombie.hp
-                            plantArr.getItemVec(index,Cell).hp=0
-                        }
+//                        if(tempPlant.name==="potatoMine" && tempPlant.state==="PotatoMine"&&bombCollide(plantX,tempZombie)){
+//                            tempPlant.touched=true
+//                            //tempPlant.state="PotatoBoom"
+//                            tempZombie.hp-=tempPlant.damage
+//                            zombieArr.getZombie(i,j).hp=tempZombie.hp
+//                            plantArr.getItemVec(index,Cell).hp=0
+//                        }
                         tempZombie.atking=true;
                         if(tempPlant!==null)
                             tempPlant.hp-=tempZombie.atk
                         else
                             break;
                     }
+
                     if(tempPlant.hp<=0){
                         plantArr.getItemVec(index,Cell).hp=tempPlant.hp;
                     }
 
                 }
             }
+        }
+
+        function detectBombCollide(){
+            for(var i=1;i<=5;i++){
+                var index=i-1;
+                var Cell=plantArr.getTempArr(index);
+                if(Cell===-1)
+                    continue;
+                var tempPlant=plantArr.getItemVec(index,Cell);
+                for(var j=0;j<zombieArr.lengthOfZombieList(i);++j){
+                    var plantX=Cell*123+160
+                    if(tempPlant.name==="potatoMine" && tempPlant.state==="PotatoMine"){
+                        if(bombCollide(plantX,zombieArr.getZombie(i,j))){
+                            tempPlant.touched=true
+//                            for(var q=1;q<=5;q++){
+//                                for(var p=0;p<zombieArr.lengthOfZombieList(q);++q){
+//                                    if(zombieArr.getZombie(i,j).x<plantX){
+//                                        zombieArr.getZombie(i,j).hp=0
+//                                    }
+//                                }
+//                            }
+                            zombieArr.getZombie(i,j).hp-=tempPlant.damage
+                            plantArr.getItemVec(index,Cell).hp=0
+                        }
+                    }
+                }
+            }
+        }
+
+
+        function bombCollide(pos,item){
+            if((pos*1.11)>=item.x){
+                return true
+            }
+            return false
         }
 
         // 检测僵尸与除草机的碰撞
