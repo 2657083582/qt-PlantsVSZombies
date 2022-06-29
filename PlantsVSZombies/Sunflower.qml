@@ -6,6 +6,7 @@ Item {
     property int hp:300
     property bool sunFlag: false
     property bool canShot:false
+    property string name: "sunFlower"
 //    signal sendSelfSun()
         AnimatedImage{
             anchors.fill: parent
