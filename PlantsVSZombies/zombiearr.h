@@ -21,7 +21,7 @@ public:
     //Q_INVOKABLE void initZombieLists();
     Q_INVOKABLE void appendZombieList(int i,QQuickItem *item);
     Q_INVOKABLE QQuickItem* getZombie(int i,int index);
-    Q_INVOKABLE void removeZombieList(int i,int index,QQuickItem *item);
+    Q_INVOKABLE void removeZombieList(int i,int index);
     Q_INVOKABLE void swapTwoZombiesInZombieList(int i,int index1,int index2);
     Q_INVOKABLE void zombieExist();
     Q_INVOKABLE int lengthOfZombieList(int i);

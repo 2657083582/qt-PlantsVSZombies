@@ -55,7 +55,7 @@ QQuickItem *ZombieArr::getZombie(int i, int index)
     return nullptr;
 }
 
-void ZombieArr::removeZombieList(int i, int index, QQuickItem *item)
+void ZombieArr::removeZombieList(int i, int index)
 {
     switch(i){
     case 1:{

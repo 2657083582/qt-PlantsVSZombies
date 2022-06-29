@@ -13,6 +13,7 @@ Item {
     signal mower();
     signal die();
     property alias image: image
+    property alias imageState:root.state
     property alias advance: advance
 
     property int hp: 200
@@ -59,6 +60,9 @@ Item {
         }
         else if(hp > 0) {
             stateChange("fine");
+        }
+        if(hp<=0){
+            stateChange("die");
         }
     }
 

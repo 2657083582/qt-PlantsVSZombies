@@ -410,6 +410,13 @@ Item {
                     var tempZombie=zombieArr.getZombie(i,j);
                     var plantX=Cell*123+160;
                     if(collidePos(plantX,tempZombie)){
+                        if(tempPlant.name==="potatoMine" && tempPlant.state==="PotatoMine"){
+                            tempPlant.touched=true
+                            //tempPlant.state="PotatoBoom"
+                            tempZombie.hp-=tempPlant.damage
+                            zombieArr.getZombie(i,j).hp=tempZombie.hp
+                            plantArr.getItemVec(index,Cell).hp=0
+                        }
                         tempZombie.atking=true;
                         if(tempPlant!==null)
                             tempPlant.hp-=tempZombie.atk
@@ -432,18 +439,32 @@ Item {
         running: false
         onRunningChanged: destroyTimer.start()
         onTriggered: {
-            detectPlantsHp()
+            detectPlantsHpandSetZombieMove()
+            detectZombiesHp()
         }
-        function detectPlantsHp(){
+        function detectPlantsHpandSetZombieMove(){
             for(var i=0;i<5;++i)
                 for(var j=0;j<9;++j){
                     var temp=plantArr.getItemVec(i,j);
                     if(temp!==null && temp.hp<=0){
                         temp.destroy();
                         plantArr.setItemVec(i,j,null);
-                        zombieArr.getZombie(i+1,0).atking=false;
+                        for(var k=0;k<zombieArr.lengthOfZombieList(i+1);++k){
+                            zombieArr.getZombie(i+1,k).atking=false;
+                        }
                     }
                 }
+        }
+        function detectZombiesHp(){
+            for(var i=1;i<=5;++i){
+                for(var j=0;j<zombieArr.lengthOfZombieList(i);++j){
+                    var temp=zombieArr.getZombie(i,j);
+                    if(temp.hp<0){
+                        temp.destroy();
+                        zombieArr.removeZombieList(i,j);
+                    }
+                }
+            }
         }
     }
 

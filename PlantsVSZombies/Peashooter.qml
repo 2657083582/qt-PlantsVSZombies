@@ -6,6 +6,7 @@ Item {
     property int hp:300
     property bool createPeaFlag: false
     property bool canShot:true
+    property string name: "peaShooter"
 
     AnimatedImage{
         id:animatedImage

@@ -3,10 +3,12 @@ import QtQuick
 
 Item {
     id:potatoMine
+    property string name: "potatoMine"
     property int hp:300
     property int damage:1800
     property int count:0
     property bool canShot:false
+    property bool touched: false
     state:"PotatoMineNotReady"
     //Rectangle{
         AnimatedImage{
@@ -34,21 +36,21 @@ Item {
             }
         },
         State{
-            name:"PotatoMine";when:!timer.running
+            name:"PotatoMine";when:!timer.running && !touched
             PropertyChanges {
                 target: animatedImage
                 source:"qrc:/images/plants/PotatoMine.gif"
             }
         },
         State{
-            name:"PotatoBoom";//when:touched  碰撞检测
+            name:"PotatoBoom";when:touched  //碰撞检测
             PropertyChanges{
                 target: animatedImage
                 source:"qrc:/images/plants/PotatoMineMashed.gif"
             }
         },
         State{
-            name:"PotatoText";when:hp===0
+            name:"PotatoText";//when:hp===0
             PropertyChanges {
                 target: animatedImage
                 source:"qrc:/images/plants/PotatoText.gif"
@@ -60,7 +62,7 @@ Item {
             Transition{
                 from:"PotatoBoom"
                 to:"PotatoText"
-                NumberAnimation{
+                PropertyAnimation{
                     target: animatedImage
                     property: animatedImage.source
                     duration: 1000
@@ -68,6 +70,18 @@ Item {
         }
 
     ]
+    onTouchedChanged: {
+        if(touched===true){
+            potatoMine.state="PotatoBoom"
+        }
+        console.log("touched:"+potatoMine.touched,"Boom:"+potatoMine.state)
+    }
+
+    onStateChanged: {
+        if(potatoMine.state==="PotatoText")
+            potatoMine.hp=0
+    }
+
     function isAttacked(zombieAtk){
         if(zombieAtk)
             hp-=zombieAtk
