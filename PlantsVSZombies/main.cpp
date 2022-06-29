@@ -2,12 +2,14 @@
 #include <QQmlApplicationEngine>
 #include"plantarr.h"
 #include"zombiearr.h"
+#include"peaarr.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     qmlRegisterType<PlantArr>("an.qt.PlantArr",1,0,"PlantArr");
     qmlRegisterType<ZombieArr>("an.qt.ZombieArr",1,0,"ZombieArr");
+    qmlRegisterType<PeaArr>("an.qt.PeaArr",1,0,"PeaArr");
 
     QQmlApplicationEngine engine;
     const QUrl url(u"qrc:/planeVsZombie/main.qml"_qs);

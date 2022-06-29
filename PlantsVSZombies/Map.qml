@@ -2,14 +2,17 @@ import QtQuick
 import QtQuick.Controls
 import an.qt.PlantArr 1.0
 import an.qt.ZombieArr 1.0
+import an.qt.PeaArr 1.0
 
 Item {
     property alias plantArr: plantArr
+    property alias peaArr: peaArr
     property alias map: map
     id:map
     property alias grid:grid
     property alias totaltimer: totaltimer
     property int phase:0
+
 
     //onPhaseChanged:
     onPhaseChanged: {
@@ -170,11 +173,11 @@ Item {
                     onTapped: {
                         if(shop.order!==-1){//判断植物是否被选中
                               //判断当前区域是否有植物，若已经有植物则不可种植
-                              if(!plantcontainer.hasPlant){
+                              //if(!plantcontainer.hasPlant){
+                            if(plantArr.getItemVec(row,col)===null){
                                   plantcontainer.createPlant(shop.order)
                                   plantcontainer.hasPlant=true
                                   shop.order=-1
-                                  //plantArr.setArr(row,col,1)
                               }
                               console.log("position:"+cell.row,cell.col)
                         }
@@ -218,7 +221,6 @@ Item {
             plantArr.updateTempArr()
             plantArr.showItemVec()
             plantArr.showTempArr()
-
         }
         onRow1Attack:{
             for(var i=0;i<9;++i){
@@ -286,7 +288,9 @@ Item {
             //console.log("row 5 has zombie!");
         }
     }
-
+    PeaArr{
+        id:peaArr
+    }
 
     SeedChooser{
         z:1
@@ -401,13 +405,10 @@ Item {
                 var Cell=plantArr.getTempArr(index);
                 if(Cell===-1)
                     continue;
+                var tempPlant=plantArr.getItemVec(index,Cell);
                 for(var j=0;j<zombieArr.lengthOfZombieList(i);++j){
                     var tempZombie=zombieArr.getZombie(i,j);
-
-                    console.log("row:"+i,"Cell:"+Cell,"zombierow:"+tempZombie.row);
                     var plantX=Cell*123+160;
-                    var tempPlant=plantArr.getItemVec(index,Cell);
-                    console.log("plantX:"+plantX,"zombieX:"+tempZombie.x)
                     if(collidePos(plantX,tempZombie)){
                         tempZombie.atking=true;
                         if(tempPlant!==null)
@@ -415,38 +416,35 @@ Item {
                         else
                             break;
                     }
-                    if(tempPlant!==null && tempPlant.hp<=0){
-                        tempPlant.destroy();
-                        tempZombie.atk=false;
-                        plantArr.setItemVec(index,j,null);
-                        //return;
+                    if(tempPlant.hp<=0){
+                        plantArr.getItemVec(index,Cell).hp=tempPlant.hp;
                     }
+
                 }
             }
         }
     }
 
-//    Timer{
-//        id:destroyTimer
-//        interval: 400
-//        repeat: true
-//        running: false
-//        onRunningChanged: destroyTimer.start()
-//        onTriggered: {
+    Timer{
+        id:destroyTimer
+        interval: 400
+        repeat: true
+        running: false
+        onRunningChanged: destroyTimer.start()
+        onTriggered: {
+            detectPlantsHp()
+        }
+        function detectPlantsHp(){
+            for(var i=0;i<5;++i)
+                for(var j=0;j<9;++j){
+                    var temp=plantArr.getItemVec(i,j);
+                    if(temp!==null && temp.hp<=0){
+                        temp.destroy();
+                        plantArr.setItemVec(i,j,null);
+                        zombieArr.getZombie(i+1,0).atking=false;
+                    }
+                }
+        }
+    }
 
-//        }
-//        function detectPlantsHp(){
-//            for(var i=0;i<5;++i)
-//                for(var j=0;j<9;++j){
-//                    var temp=plantArr.getItemVec(i,j);
-//                    if(temp!==null && temp.hp<=0){
-//                        temp.destroy();
-//                        plantArr.setItemVec(i,j,null);
-//                    }
-//                }
-//        }
-//    }
-
-
-    //BasicZombie{}
 }

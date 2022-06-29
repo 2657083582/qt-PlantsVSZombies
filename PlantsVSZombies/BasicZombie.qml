@@ -13,7 +13,6 @@ Item {
     signal mower();
     signal die();
     property alias image: image
-//    property alias imageState: image.state
     property alias advance: advance
 
     property int hp: 200
@@ -58,7 +57,7 @@ Item {
             stateChange("attack");
             console.log(image.state)
         }
-        else if(akting === false && hp > 0) {
+        else if(hp > 0) {
             stateChange("fine");
         }
     }

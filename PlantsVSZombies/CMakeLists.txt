@@ -20,6 +20,7 @@ qt_add_executable(appplaneVsZombie
     main.cpp
     plantarr.cpp    plantarr.h
     zombiearr.cpp   zombiearr.h
+    peaarr.cpp      peaarr.h
     resources.qrc
 )
 

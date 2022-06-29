@@ -21,6 +21,9 @@ Item {
 
     function createPeas() {
         var newPea = Qt.createQmlObject('Pea{x: 123 * 0.75 * 0.65; y: 144 * 0.1 * 0.5}', peaShooter);
+        var tempIndex=peaShooter.parent.parent.row;
+        peaArr.appendPeaList(tempIndex,newPea);
+        console.log("row:"+tempIndex);
     }
 
     Timer {
