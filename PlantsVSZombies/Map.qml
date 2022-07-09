@@ -1,3 +1,4 @@
+//地图，游戏的主要场景
 import QtQuick
 import QtQuick.Controls
 import an.qt.PlantArr 1.0
@@ -6,14 +7,17 @@ import an.qt.PeaArr 1.0
 import an.qt.MowerArr 1.0
 
 Item {
-    property alias plantArr: plantArr
-    property alias peaArr: peaArr
     property alias map: map
+    property alias peaArr: peaArr
     id:map
     property alias grid:grid
     property alias totaltimer: totaltimer
     property int phase:0
-
+    property bool row1HasMower: false
+    property bool row2HasMower: false
+    property bool row3HasMower: false
+    property bool row4HasMower: false
+    property bool row5HasMower: false
 
     //onPhaseChanged:
     onPhaseChanged: {
@@ -68,30 +72,18 @@ Item {
         ]
     }
 
-    MowerArr {
-        id: mowerArr
+    Image{
+        id:loseImage
+        z:1
+        source: "qrc:/images/interface/Fail.png"
+        visible: false
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top:parent.top
+        anchors.topMargin: 280
     }
 
-    Timer {
-        id: mowerTimer
-        interval: 499
-        repeat: false
-        running: false
-        triggeredOnStart: false
-        onTriggered: {
-            createMower()
 
-        }
-        function createMower() {
-           for(var i = 0; i < 5; ++i) {
-               var newMower = Qt.createQmlObject('Mower{}',map);
-               newMower.y = 87 * 1.6 + 144 * i;
-               mowerArr.appendMowerList(newMower);
-               console.log("create mower " + i)
-           }
-        }
-    }
-
+    //安放植物的网格
     Grid{
         //z:-1
         id:grid
@@ -113,6 +105,7 @@ Item {
                 id:cell
                 required property int row
                 required property int col
+                required property int peaFlag
                 width: 123
                 height:144
                 //border.color:"transparent"
@@ -128,15 +121,25 @@ Item {
                         //获取植物名称
                         var plantName=shop.listModel.get(index).name;
                         //根据名称种植对应植物
+                        var cost=Number(shop.listModel.get(index).cost)
+                        var curSun=Number(shop.sun.text)
+                        console.log("curSun:"+curSun,"Cost:"+cost)
+                        if(curSun<cost){
+                            return;
+                        }else{
+                            curSun-=cost
+                            shop.sun.text=curSun.toString()
+                        }
+
                         if(plantName==="sunFlower"){
                             newplant=
                             Qt.createQmlObject('Sunflower{anchors.fill:parent}',plantcontainer);
-
 
                         }
                         if(plantName==="peaShooter"){
                             newplant=
                             Qt.createQmlObject('Peashooter{anchors.fill:parent}',plantcontainer);
+                            myGridModel.set(cell.row*9+cell.col,{"peaFlag":1});
 
                         }
                         if(plantName==="potatoMine"){
@@ -147,11 +150,14 @@ Item {
                         if(plantName==="Reapter"){
                             newplant=Qt.createQmlObject
                                     ('RepeaShooter{anchors.fill:parent}',plantcontainer)
+                            myGridModel.set(cell.row*9+cell.col,{"peaFlag":2});
                         }
 
-                        if(plantName==="snowPea")
+                        if(plantName==="snowPea"){
                             newplant=Qt.createQmlObject
                                     ('SnowPeaShooter{anchors.fill:parent}',plantcontainer)
+                            myGridModel.set(cell.row*9+cell.col,{"peaFlag":1});
+                        }
 
                         if(plantName==="cherryBomb"){
                             newplant=Qt.createQmlObject
@@ -166,8 +172,21 @@ Item {
 //                        console.log(newplant.hp)
                     }
 
+                    function createPeas() {
+                        var newPea = Qt.createQmlObject('Pea{x: 123 * 0.75 * 0.65; y: 144 * 0.1 * 0.5}', plantcontainer);
+                        var tempRow=cell.row+1;
+                        var tempCol=cell.col;
+                        console.log("row:"+tempRow,"col:"+tempCol)
+                        peaArr.appendPeaInPeaVec(tempRow,tempCol,newPea);
+//                        if(!peaArr.peaVecIsEmpty(tempRow,tempCol)){
+//                            console.log("peaVec"+tempRow,tempCol,"is not empty")
+//                            console.log("length:",peaArr.lengthOfPeaList(tempRow,tempCol))
+//                        }
+                    }
+
                     id:plantcontainer
                     property bool hasPlant: false
+
 
                     width: parent.width*0.68
                     height: parent.height*0.68
@@ -203,6 +222,18 @@ Item {
                         }
                      }
                 }
+
+                Timer {
+                    id: createPea
+                    interval: 3000; running: true; repeat: true
+                    onTriggered: {
+                        if(!zombieArr.zombieListIsEmpty(cell.row+1)) {
+                            if(cell.peaFlag === 1)
+                                plantcontainer.createPeas();
+                        }
+                    }
+                }
+
            }
        }
         //存储grid中每个rectangle的行和列
@@ -210,9 +241,10 @@ Item {
             id:myGridModel
 
             function createMolde(){
+                var flag=0;
                 for(var i=0;i<5;i++)
                     for(var j=0;j<9;j++)
-                        myGridModel.append({"row":i,"col":j})
+                        myGridModel.append({"row":i,"col":j,"peaFlag":flag})
             }
 
             Component.onCompleted: {
@@ -221,7 +253,7 @@ Item {
         }
     }
 
-    //记录grid的每个各自中是否有植物，有arr[i][j]为1,否则为0
+    //植物容器，记录grid的每个各自中是否有植物，若有植物，arr[i][j]为1;否则为0
     PlantArr{
         id:plantArr
         Component.onCompleted: {
@@ -301,8 +333,17 @@ Item {
     }
     PeaArr{
         id:peaArr
+        Component.onCompleted: {
+            peaArr.initPeaList()
+        }
+    }
+    MowerArr {
+        id: mowerArr
     }
 
+
+
+    //选择植物
     SeedChooser{
         z:1
         id:chooser
@@ -314,6 +355,7 @@ Item {
         anchors.topMargin: 160
     }
 
+    //开始按钮
     Button{
         id:btn
         width: 200
@@ -343,7 +385,7 @@ Item {
         running:false
 
         onRunningChanged: {
-            if(totaltimer.running===true)
+            if(totaltimer.running)
                 totaltimer.start()
                 singleZombieTimer.running=true
                 singleSunTimer.running=true
@@ -354,7 +396,14 @@ Item {
     //用于产生僵尸的定时器
     Timer{
         function createZombie(){
-            var newZombie=Qt.createQmlObject('BasicZombie{}',map)
+            var newZombie;
+            var random=Math.floor(Math.random()*3)
+            if(random===0)
+                newZombie=Qt.createQmlObject('BasicZombie{}',map);
+            if(random===1)
+                newZombie=Qt.createQmlObject('FlagZombie{}',map);
+            if(random===2)
+                newZombie=Qt.createQmlObject('ConeheadZombie{}',map);
             zombieArr.appendZombieList(newZombie.row+1,newZombie)
             zombieArr.zombieExist()
             console.log("hp:"+zombieArr.getZombie(newZombie.row+1,0).hp)
@@ -382,6 +431,26 @@ Item {
             singleSunTimer.createSun()
         }
     }
+    //生成除草机的定时器
+    Timer {
+        id: mowerTimer
+        interval: 499
+        repeat: false
+        running: false
+        triggeredOnStart: false
+        onTriggered: {
+            createMower()
+
+        }
+        function createMower() {
+           for(var i = 0; i < 5; ++i) {
+               var newMower = Qt.createQmlObject('Mower{}',map);
+               newMower.y = 87 * 1.6 + 144 * i;
+               mowerArr.appendMowerList(newMower);
+               console.log("create mower " + i)
+           }
+        }
+    }
     //用于碰撞检测的定时器
     Timer{
         id:detectTimer
@@ -394,7 +463,8 @@ Item {
             detectTimer.detectZombieCollideWithPlant()
             detectTimer.detectZombieCollideWithMower()
             detectTimer.detectMowerCollideWithZombie()
-
+            detectTimer.detectZombieCollideWithPea()
+            detectTimer.detectLose()
         }
 
         //碰撞检测（用于两个Item之间)
@@ -404,9 +474,15 @@ Item {
             }
             return false;
         }
-        //碰撞检测（当其中一个item的坐标不能直接获取，只能计算的到时用这个）
+        //碰撞检测（当其中一个item的坐标不方便直接获取，只能通过计算的到时用这个）
         function collidePos(x,item){
             if(x>=item.x){
+                return true;
+            }
+            return false;
+        }
+        function collideWithOffset(item1,item2,offset){
+            if((item1.x+offset+item1.width)>=item2.x){
                 return true;
             }
             return false;
@@ -426,10 +502,11 @@ Item {
                     if(collidePos(plantX,tempZombie)){
                         if(tempPlant.name==="potatoMine" && tempPlant.state==="PotatoMine"){
                             tempPlant.touched=true
-                            //tempPlant.state="PotatoBoom"
                             tempZombie.hp-=tempPlant.damage
-                            zombieArr.getZombie(i,j).hp=tempZombie.hp
-                            plantArr.getItemVec(index,Cell).hp=0
+                            zombieArr.removeZombieList(i,j);
+                            --j;
+                            plantArr.setItemVec(index,Cell,null)
+
                         }
                         tempZombie.atking=true;
                         if(tempPlant!==null)
@@ -439,8 +516,52 @@ Item {
                     }
                     if(tempPlant.hp<=0){
                         plantArr.getItemVec(index,Cell).hp=tempPlant.hp;
+
                     }
 
+                }
+            }
+        }
+
+        //检测僵尸与子弹碰撞
+        function detectZombieCollideWithPea(){
+            for(var i=1;i<=5;i++){
+                for(var j=0;j<9;j++){
+                    var lengthOfPeaArr=peaArr.lengthOfPeaList(i,j)
+                    var lengthOfZombieArr=zombieArr.lengthOfZombieList(i)
+                    var removePeaFlag=false;
+                    var removeZombieFlag=false;
+                    for(var k=0;k<lengthOfPeaArr;k++){
+                        if(removePeaFlag){
+                            --k;
+                            removePeaFlag=false;
+                        }
+                        var tempPea=peaArr.getPeaInPeaVecAt(i,j,k);
+                        for(var t=0;t<lengthOfZombieArr;t++){
+                            if(removeZombieFlag){
+                                --t;
+                                removeZombieFlag=false;
+                            }
+                            var tempZombie=zombieArr.getZombie(i,t);
+                            var offset=j*123+160;
+                            if(collideWithOffset(tempPea,tempZombie,offset)){
+                                console.log("pea collide with zombies")
+                                tempZombie.hp-=tempPea.damage
+                                if(tempPea.slow)
+                                    tempZombie.speed*=tempPea.slowValue
+                                peaArr.getPeaInPeaVecAt(i,j,k).destroy()
+                                peaArr.removePeaInPeaVecAt(i,j,k);
+                                --lengthOfPeaArr;
+                                removePeaFlag=true
+                            }
+                            if(tempZombie.hp<=0){
+                                //zombieArr.getZombie(i,j).hp=tempZombie.hp
+                                zombieArr.removeZombieList(i,t)
+                                --lengthOfZombieArr;
+                                removeZombieFlag=true;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -454,6 +575,18 @@ Item {
                     if(collidePos(mowerX, tempZombie)) {
                         var row = tempZombie.row;
                         mowerArr.getMower(row).move = true;
+                        switch(row){
+                        case 0:map.row1HasMower=false;
+                            break;
+                        case 1:map.row2HasMower=false;
+                            break;
+                        case 0:map.row1HasMower=false;
+                            break;
+                        case 1:map.row2HasMower=false;
+                            break;
+                        case 0:map.row1HasMower=false;
+                            break;
+                        }
                     }
                 }
             }
@@ -475,8 +608,21 @@ Item {
 
 
         }
+
+        //判断游戏结束（当僵尸到达场景的最左边时游戏结束）
+        function detectLose(){
+            for(var i=1;i<=5;++i)
+                for(var j = 0; j < zombieArr.lengthOfZombieList(i); ++j){
+                    var tempZombie=zombieArr.getZombie(i,j);
+                    if(tempZombie.x===0){
+                        loseImage.visible=true
+                        map.gameOver()
+                    }
+                }
+        }
     }
 
+    //检测各个对象的状态并根据状态判断是否摧毁该对象
     Timer{
         id:destroyTimer
         interval: 400
@@ -492,6 +638,7 @@ Item {
                 for(var j=0;j<9;++j){
                     var temp=plantArr.getItemVec(i,j);
                     if(temp!==null && temp.hp<=0){
+                        myGridModel.set(i*9+j,{"peaFlag":0})
                         temp.destroy();
                         plantArr.setItemVec(i,j,null);
                         for(var k=0;k<zombieArr.lengthOfZombieList(i+1);++k){
@@ -513,4 +660,11 @@ Item {
         }
     }
 
+    function gameOver(){
+        totaltimer.running=false;
+        singleZombieTimer.running=false
+        singleSunTimer.running=false
+        detectTimer.running=false
+        destroyTimer.running=false
+    }
 }

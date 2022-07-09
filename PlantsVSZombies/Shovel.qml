@@ -1,3 +1,4 @@
+//铲子
 import QtQuick
 
 Item {

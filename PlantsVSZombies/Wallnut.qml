@@ -1,3 +1,4 @@
+//坚果墙
 import QtQuick
 
 Item {
@@ -5,14 +6,12 @@ Item {
      property int hp:4000
      property bool canShot:false
      property string name: "wallNut"
-     //Rectangle{
-         AnimatedImage{
-             id:animatedImage
-             source: "qrc:/images/plants/WallNut.gif"
-             visible:true
-             anchors.fill: parent
-         }
-     //}
+     AnimatedImage{
+         id:animatedImage
+         source: "qrc:/images/plants/WallNut.gif"
+         visible:true
+         anchors.fill: parent
+     }
      onHpChanged: {
          if(hp<4000*2/3&&hp>4000/3)
              animatedImage.source="qrc:/images/plants/WallNutCracked1.gif"
@@ -23,8 +22,4 @@ Item {
          if(zombieAtk)
              hp-=zombieAtk
      }
-//     function Death(hp){
-//         if(hp<=0)
-//             delete wallNut
-//     }
 }

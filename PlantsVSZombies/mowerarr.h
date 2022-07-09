@@ -1,3 +1,5 @@
+//除草机数组类
+//用于管理创建出的除草机对象
 #ifndef MOWERARR_H
 #define MOWERARR_H
 

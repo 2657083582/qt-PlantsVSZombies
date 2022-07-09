@@ -1,3 +1,4 @@
+//阳光
 import QtQuick
 
 Item {

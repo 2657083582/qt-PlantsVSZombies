@@ -1,3 +1,4 @@
+//樱桃炸弹
 import QtQuick
 
 Item {

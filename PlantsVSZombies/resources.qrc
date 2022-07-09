@@ -62,5 +62,6 @@
         <file>images/plants/SnowPea.gif</file>
         <file>images/plants/SnowPeaShooter.gif</file>
         <file>images/plants/SnowPeaShooter.png</file>
+        <file>images/interface/Fail.png</file>
     </qresource>
 </RCC>

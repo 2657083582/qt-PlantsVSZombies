@@ -1,3 +1,4 @@
+//撑杆僵尸
 import QtQuick
 
 Item {

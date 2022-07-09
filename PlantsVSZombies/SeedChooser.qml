@@ -1,3 +1,4 @@
+//选择食物的窗口
 import QtQuick
 
 Rectangle{

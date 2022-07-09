@@ -1,3 +1,9 @@
+/******************************
+ 项目名称：植物大战僵尸
+ 时间：2022.7.9
+  *****************************/
+
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include"plantarr.h"
@@ -15,6 +21,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     const QUrl url(u"qrc:/planeVsZombie/main.qml"_qs);
+    //const QUrl url(u"qrc:/planeVsZombie/GameWindow.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)

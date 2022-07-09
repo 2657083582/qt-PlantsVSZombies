@@ -1,3 +1,4 @@
+//旗帜僵尸
 import QtQuick
 
 Item {
@@ -56,7 +57,7 @@ Item {
         if(atking === true) {
             stateChange("attack");
         }
-        else if(akting === false && hp > 0) {
+        else if(atking === false && hp > 0) {
             stateChange("fine");
         }
     }
@@ -71,6 +72,7 @@ Item {
             }else if(root.state === "lostHead") {
                 ///stateChange("die");
                 stateInterval.repeat = false;
+                root.visible=false
             }
         }
     }

@@ -1,3 +1,5 @@
+//植物数组类，用于管理植物
+
 #ifndef PLANTARR_H
 #define PLANTARR_H
 

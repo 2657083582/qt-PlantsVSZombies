@@ -144,3 +144,15 @@ int ZombieArr::lengthOfZombieList(int i)
     }
     return -1;
 }
+
+bool ZombieArr::zombieListIsEmpty(int i)
+{
+    switch(i){
+    case 1:return zombieList1.isEmpty();
+    case 2:return zombieList2.isEmpty();
+    case 3:return zombieList3.isEmpty();
+    case 4:return zombieList4.isEmpty();
+    case 5:return zombieList5.isEmpty();
+    }
+    return false;
+}

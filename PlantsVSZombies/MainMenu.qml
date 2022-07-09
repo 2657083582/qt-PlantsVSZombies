@@ -38,6 +38,7 @@ Item {
                 onTapped: {
                     root.start()
                 }
+
             }
         }
 

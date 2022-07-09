@@ -1,3 +1,4 @@
+//植物卡片
 import QtQuick
 
 Rectangle {

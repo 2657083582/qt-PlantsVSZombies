@@ -1,3 +1,4 @@
+//双重射手
 import QtQuick
 
 Item {

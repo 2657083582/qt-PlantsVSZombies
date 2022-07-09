@@ -1,3 +1,4 @@
+//游戏窗口界面
 import QtQuick
 import QtQuick.Controls
 import QtMultimedia
@@ -19,7 +20,7 @@ ApplicationWindow {
         anchors.fill: parent
 
     }
-
+    //商店
     Shop{
         id:shop
         anchors.top: parent.top
@@ -27,6 +28,7 @@ ApplicationWindow {
         anchors.topMargin: 0
         anchors.leftMargin: 50
     }
+    //菜单按钮
     Button{
         id:menu
         width: 113*0.8
@@ -57,6 +59,7 @@ ApplicationWindow {
             console.log("clicked")
         }
     }
+    //铲子
     Shovel{
         id:shovel
         anchors.top:menu.bottom
@@ -64,10 +67,6 @@ ApplicationWindow {
         anchors.topMargin: 2
         anchors.leftMargin: 20
     }
-//    Mower{
-
-//    }
-
 
     MediaPlayer{
         id:player

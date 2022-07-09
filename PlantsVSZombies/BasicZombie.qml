@@ -1,3 +1,4 @@
+//普通僵尸
 import QtQuick
 
 Item {
@@ -75,6 +76,7 @@ Item {
             }else if(root.state === "lostHead") {
                 //stateChange("die");
                 stateInterval.repeat = false;
+                root.visible=false
             }
         }
     }

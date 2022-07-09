@@ -1,3 +1,4 @@
+//除草机
 import QtQuick
 
 Item {

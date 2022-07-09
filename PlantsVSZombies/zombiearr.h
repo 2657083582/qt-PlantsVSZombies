@@ -1,3 +1,4 @@
+//僵尸数组类，用于管理僵尸
 #ifndef ZOMBIEARR_H
 #define ZOMBIEARR_H
 
@@ -25,6 +26,7 @@ public:
     Q_INVOKABLE void swapTwoZombiesInZombieList(int i,int index1,int index2);
     Q_INVOKABLE void zombieExist();
     Q_INVOKABLE int lengthOfZombieList(int i);
+    Q_INVOKABLE bool zombieListIsEmpty(int i);
 
 signals:
     void appendZombie();

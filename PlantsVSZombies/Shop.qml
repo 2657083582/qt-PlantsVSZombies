@@ -1,3 +1,4 @@
+//商店
 import QtQuick
 
 Item {
@@ -20,7 +21,7 @@ Item {
 
         Text{
             id:sun
-            text:"2000"
+            text:"50"
             font.pixelSize: 30
             anchors.bottom: parent.bottom
             anchors.left:parent.left

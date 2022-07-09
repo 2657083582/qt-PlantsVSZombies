@@ -1,3 +1,4 @@
+//土豆雷
 import QtQuick
 //import QtQml.StateMachine as DSM
 
@@ -27,6 +28,16 @@ Item {
         running:true
         triggeredOnStart: false
     }
+    Timer{
+        id:visualTimer
+        interval: 500
+        running: false
+        repeat: false
+        triggeredOnStart: false
+        onTriggered: animatedImage.visible=false
+        onRunningChanged: visualTimer.start()
+    }
+
     states:[
         State{
             name:"PotatoMineNotReady";
@@ -43,7 +54,7 @@ Item {
             }
         },
         State{
-            name:"PotatoBoom";when:touched  //碰撞检测
+            name:"PotatoBoom";when:touched
             PropertyChanges{
                 target: animatedImage
                 source:"qrc:/images/plants/PotatoMineMashed.gif"
@@ -74,12 +85,13 @@ Item {
         if(touched===true){
             potatoMine.state="PotatoBoom"
         }
-        console.log("touched:"+potatoMine.touched,"Boom:"+potatoMine.state)
     }
 
     onStateChanged: {
-        if(potatoMine.state==="PotatoText")
+        if(potatoMine.state==="PotatoText"){
             potatoMine.hp=0
+            visualTimer.running=true
+        }
     }
 
     function isAttacked(zombieAtk){
