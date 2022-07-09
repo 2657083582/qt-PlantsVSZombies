@@ -82,13 +82,13 @@ Item {
 
     ]
     onTouchedChanged: {
-        if(touched===true){
+        if(potatoMine.touched){
             potatoMine.state="PotatoBoom"
         }
     }
 
     onStateChanged: {
-        if(potatoMine.state==="PotatoText"){
+        if(potatoMine.state==="PotatoBoom"){
             potatoMine.hp=0
             visualTimer.running=true
         }

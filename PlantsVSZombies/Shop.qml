@@ -21,7 +21,7 @@ Item {
 
         Text{
             id:sun
-            text:"50"
+            text:"300"
             font.pixelSize: 30
             anchors.bottom: parent.bottom
             anchors.left:parent.left
@@ -58,9 +58,6 @@ Item {
                     }
                 }
                 Component.onCompleted: {
-//                    for(var i=0;i<listModel.count;++i)
-//                        console.log("index"+listModel.get(i).index)
-//                    console.log("index of card"+card.index)
                 }
             }
 

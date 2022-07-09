@@ -6,7 +6,7 @@ Item{
     width:20
     height:20
     property bool slow: false
-    property int damage: 20
+    property int damage: 30
     Image{
         id:peaImage
 

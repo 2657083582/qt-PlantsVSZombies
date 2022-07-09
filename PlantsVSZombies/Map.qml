@@ -19,7 +19,6 @@ Item {
     property bool row4HasMower: false
     property bool row5HasMower: false
 
-    //onPhaseChanged:
     onPhaseChanged: {
         img.state=this.phase===0?"preparatory phase":"combat phase"
         grid.visible=map.phase===0?true:false
@@ -85,7 +84,6 @@ Item {
 
     //安放植物的网格
     Grid{
-        //z:-1
         id:grid
         focus: false
         visible: false
@@ -209,14 +207,13 @@ Item {
                                   plantcontainer.hasPlant=true
                                   shop.order=-1
                               }
-                              console.log("position:"+cell.row,cell.col)
                         }
                         if(shovel.selected){//当铲子被选中时，如果当前区域有植物则铲除
                             if(plantcontainer.hasPlant){
                                 plantArr.getItemVec(row,col).destroy();
                                 plantArr.setItemVec(row,col,null);
                                 plantcontainer.hasPlant=false;
-                                console.log("destroy item");
+                                cell.peaFlag=0
                             }
                             shovel.selected=false;
                         }
@@ -465,7 +462,6 @@ Item {
             detectTimer.detectMowerCollideWithZombie()
             detectTimer.detectZombieCollideWithPea()
             detectTimer.detectLose()
-            detectTimer.detectBombCollide()
         }
 
         //碰撞检测（用于两个Item之间)
@@ -504,25 +500,20 @@ Item {
                         if(tempPlant.name==="potatoMine" && tempPlant.state==="PotatoMine"){
                             tempPlant.touched=true
                             tempZombie.hp-=tempPlant.damage
-                            zombieArr.removeZombieList(i,j);
+                            if(tempZombie.hp<0){
+                                tempZombie.visible=false
+                                zombieArr.removeZombieList(i,j);
+                            }
                             --j;
                             plantArr.setItemVec(index,Cell,null)
 
                         }
-//                        if(tempPlant.name==="potatoMine" && tempPlant.state==="PotatoMine"&&bombCollide(plantX,tempZombie)){
-//                            tempPlant.touched=true
-//                            //tempPlant.state="PotatoBoom"
-//                            tempZombie.hp-=tempPlant.damage
-//                            zombieArr.getZombie(i,j).hp=tempZombie.hp
-//                            plantArr.getItemVec(index,Cell).hp=0
-//                        }
                         tempZombie.atking=true;
                         if(tempPlant!==null)
                             tempPlant.hp-=tempZombie.atk
                         else
                             break;
                     }
-
                     if(tempPlant.hp<=0){
                         plantArr.getItemVec(index,Cell).hp=tempPlant.hp;
 
@@ -540,13 +531,13 @@ Item {
                     var lengthOfZombieArr=zombieArr.lengthOfZombieList(i)
                     var removePeaFlag=false;
                     var removeZombieFlag=false;
-                    for(var k=0;k<lengthOfPeaArr;k++){
+                    for(var k=0;k<peaArr.lengthOfPeaList(i,j);k++){
                         if(removePeaFlag){
                             --k;
                             removePeaFlag=false;
                         }
                         var tempPea=peaArr.getPeaInPeaVecAt(i,j,k);
-                        for(var t=0;t<lengthOfZombieArr;t++){
+                        for(var t=0;t<zombieArr.lengthOfZombieList(i);t++){
                             if(removeZombieFlag){
                                 --t;
                                 removeZombieFlag=false;
@@ -560,51 +551,19 @@ Item {
                                     tempZombie.speed*=tempPea.slowValue
                                 peaArr.getPeaInPeaVecAt(i,j,k).destroy()
                                 peaArr.removePeaInPeaVecAt(i,j,k);
-                                --lengthOfPeaArr;
+                                //--lengthOfPeaArr;
                                 removePeaFlag=true
                             }
                             if(tempZombie.hp<=0){
-                                //zombieArr.getZombie(i,j).hp=tempZombie.hp
+                                zombieArr.getZombie(i,t).destroy()
                                 zombieArr.removeZombieList(i,t)
-                                --lengthOfZombieArr;
+                                //--lengthOfZombieArr;
                                 removeZombieFlag=true;
                             }
                         }
                     }
                 }
             }
-        }
-
-        //检测僵尸与土豆类碰撞
-        function detectBombCollide(){
-            for(var i=1;i<=5;i++){
-                var index=i-1;
-                var Cell=plantArr.getTempArr(index);
-                if(Cell===-1)
-                    continue;
-                var tempPlant=plantArr.getItemVec(index,Cell);
-                for(var j=0;j<zombieArr.lengthOfZombieList(i);++j){
-                    var plantX=Cell*123+160
-                    if(tempPlant.name==="potatoMine" && tempPlant.state==="PotatoMine"){
-                        if(bombCollide(plantX,zombieArr.getZombie(i,j))){
-                            tempPlant.touched=true
-                            zombieArr.getZombie(i,j).hp-=tempPlant.damage
-                            if(zombieArr.getZombie(i,j).hp<0){
-                                zombieArr.getZombie(i,j).destroy()
-                                zombieArr.removeZombieList(i,j)
-                            }
-                            plantArr.setItemVec(index,Cell,null)
-                            //plantArr.getItemVec(index,Cell).hp=0
-                        }
-                    }
-                }
-            }
-        }
-        function bombCollide(pos,item){
-            if((pos*1.11)>=item.x){
-                return true
-            }
-            return false
         }
 
         // 检测僵尸与除草机的碰撞

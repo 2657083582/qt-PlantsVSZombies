@@ -3,7 +3,7 @@ import QtQuick
 
 Item {
      id:wallNut
-     property int hp:4000
+     property int hp:5000
      property bool canShot:false
      property string name: "wallNut"
      AnimatedImage{
